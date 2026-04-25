@@ -10,6 +10,11 @@ int main()
 {
 	Agency agency;
 
+	agency.add_real_estate({ "693 Rabelais", 200, "Maison" });
+	agency.add_real_estate({ "603 Avion", 10.5, "Appartement" });
+	agency.add_real_estate({ "207 Bateau", 30, "Terrain" });
+	agency.add_real_estate({ "1369 Bernard", 1000, "Maison" });
+
 	do
 	{
 		cout << "\n\n ===== MENU =====\n\n";
@@ -20,7 +25,7 @@ int main()
 			<< " [3] Ajouter un bien immobilier\n"
 			<< " [4] Lister les bien immobilier\n"
 			<< " [5] Creer un contrat\n"
-			<< " [6] Faire une transaction\n"
+			<< " [6] Enregistrer une transaction\n"
 			<< " [0] Quitter\n";
 
 		cout << "\nEntrez votre choix : ";
@@ -50,7 +55,7 @@ int main()
 			agency.add_owner();
 			break;
 		case 3:
-			agency.add_real_estate();
+			agency.create_real_estate();
 			break;
 		case 4:
 			agency.list_options();
