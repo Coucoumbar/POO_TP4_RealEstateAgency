@@ -11,8 +11,9 @@ private:
 	vector<Contract*> contracts;
 
 public:
-	Client(const string&, const string&, const string&);
+	Client(const string& name, const string& address, const string& phone);
 
-	void add_contract(const Contract&);
+	void addContract(Contract* contract);
+	void displayInfo() const override;
 };
 

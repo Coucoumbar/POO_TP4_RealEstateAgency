@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "RealEstate.h"
 
 using namespace std;
@@ -11,14 +12,22 @@ private:
 	const string id;
 	RealEstate* property;
 	string date;
-	string type;
+	string type; // Location, Vente, etc.
 	string terms;
-	string status;
+	string status; // En attente, Signé
+
+	static int nextId;
 
 public:
-	Contract(const string&, const string&, const string&);
+	Contract(RealEstate* property, const string& date, const string& type, const string& terms);
 
-	void display_details();
+	void display_details() const;
 	void sign();
+
+	string getId() const;
+	string getDate() const;
+	string getType() const;
+	string getStatus() const;
+	RealEstate* getProperty() const;
 };
 

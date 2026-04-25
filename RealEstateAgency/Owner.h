@@ -13,9 +13,10 @@ private:
 	vector<Contract*> contracts;
 
 public:
-	Owner(const string&, const string&, const string&);
+	Owner(const string& name, const string& address, const string& phone);
 
-	void add_ownership(const RealEstate&);
-	void add_contract(const Contract&);
+	void addOwnership(RealEstate* property);
+	void addContract(Contract* contract);
+	void displayInfo() const override;
 };
 
