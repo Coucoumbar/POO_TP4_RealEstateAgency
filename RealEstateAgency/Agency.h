@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <iostream>
 
 #include "RealEstate.h"
 #include "Person.h"
@@ -25,7 +25,8 @@ private:
 public:
 	Agency();
 
-	void add_real_estate();
+	void add_real_estate(const RealEstate);
+	void create_real_estate();
 	void add_client();
 	void add_owner();
 	void list_options();
