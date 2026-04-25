@@ -13,10 +13,90 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\RealEstate">
+      <UniqueIdentifier>{9f296975-07e5-4fef-b53a-5f0b473f16bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Person">
+      <UniqueIdentifier>{fe3c7ce6-8d95-484e-8bf2-02311e851973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\RealEstate">
+      <UniqueIdentifier>{6efd0b83-7163-4ff1-96f8-cceda42fd27f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Person">
+      <UniqueIdentifier>{29923379-aafc-4e70-a7a6-901e6deb8d44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Contract.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Transaction.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Agency.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Apartment.cpp">
+      <Filter>Fichiers sources\RealEstate</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>Fichiers sources\RealEstate</Filter>
+    </ClCompile>
+    <ClCompile Include="Land.cpp">
+      <Filter>Fichiers sources\RealEstate</Filter>
+    </ClCompile>
+    <ClCompile Include="RealEstate.cpp">
+      <Filter>Fichiers sources\RealEstate</Filter>
+    </ClCompile>
+    <ClCompile Include="Person.cpp">
+      <Filter>Fichiers sources\Person</Filter>
+    </ClCompile>
+    <ClCompile Include="Tenant.cpp">
+      <Filter>Fichiers sources\Person</Filter>
+    </ClCompile>
+    <ClCompile Include="Owner.cpp">
+      <Filter>Fichiers sources\Person</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Fichiers sources\Person</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Contract.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Transaction.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Agency.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Apartment.h">
+      <Filter>Fichiers d%27en-tête\RealEstate</Filter>
+    </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>Fichiers d%27en-tête\RealEstate</Filter>
+    </ClInclude>
+    <ClInclude Include="Land.h">
+      <Filter>Fichiers d%27en-tête\RealEstate</Filter>
+    </ClInclude>
+    <ClInclude Include="RealEstate.h">
+      <Filter>Fichiers d%27en-tête\RealEstate</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Fichiers d%27en-tête\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="Owner.h">
+      <Filter>Fichiers d%27en-tête\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>Fichiers d%27en-tête\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="Tenant.h">
+      <Filter>Fichiers d%27en-tête\Person</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
