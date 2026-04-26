@@ -1,4 +1,4 @@
-#include "Contract.h"
+Ôªø#include "Contract.h"
 #include <iostream>
 #include <stdexcept>
 
@@ -16,13 +16,13 @@ Contract::Contract(RealEstate* property, const string& date, const string& type,
 
 void Contract::sign()
 {
-    if (status == "SignÈ") {
-        throw runtime_error("Contrat dÈj‡ signÈ.");
+    if (status == "Sign√©") {
+        throw runtime_error("Contrat d√©j√† sign√©.");
     }
     if (!property) {
         throw runtime_error("Impossible de signer un contrat incomplet.");
     }
-    status = "SignÈ";
+    status = "Sign√©";
 }
 
 void Contract::display_details() const {

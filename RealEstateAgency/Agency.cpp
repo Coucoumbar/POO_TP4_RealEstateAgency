@@ -1,4 +1,4 @@
-#include "Agency.h"
+﻿#include "Agency.h"
 
 Agency::Agency() {
 
@@ -337,7 +337,7 @@ void Agency::list_persons()
 		}
 	}
 
-	// Propri�taires
+	// Propriétaires
 	cout << "\n--- Proprietaires ---" << endl;
 	if (owners.empty()) {
 		cout << "Aucun proprietaire enregistre." << endl;

@@ -1,6 +1,7 @@
-// Fait par : Mathias Lavoie & Nathan Morasse
+﻿// Fait par : Mathias Lavoie & Nathan Morasse
 
 #include <iostream>
+#include <windows.h>
 
 #include "Agency.h"
 
@@ -8,6 +9,9 @@ using namespace std;
 
 int main()
 {
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
+
 	// Initial Data
 	Agency agency;
 
@@ -41,7 +45,7 @@ int main()
 			<< " [2] Lister les personne.\n"
 			<< " [3] Ajouter un bien immobilier\n"
 			<< " [4] Lister les bien immobilier\n"
-			<< " [5] Creer un contrat\n"
+			<< " [5] Créer un contrat\n"
 			<< " [6] Enregistrer une transaction\n"
 			<< " [0] Quitter\n";
 
@@ -50,7 +54,7 @@ int main()
 		int choice;
 
 		while (!(cin >> choice) || choice < 0 || choice > 6) {
-			cout << "\nChoix invalide! Veuillez reessayer." << endl;
+			cout << "\nChoix invalide! Veuillez réessayer." << endl;
 			cout << "Entrez votre choix : ";
 
 			cin.clear();

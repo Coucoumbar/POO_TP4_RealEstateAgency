@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <string>
 #include <vector>
@@ -14,7 +14,7 @@ private:
 	string date;
 	string type; // Location, Vente, etc.
 	string terms;
-	string status; // En attente, Sign�
+	string status; // En attente, Signé
 
 	static int nextId;
 

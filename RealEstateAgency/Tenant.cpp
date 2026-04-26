@@ -1,4 +1,4 @@
-#include "Tenant.h"
+﻿#include "Tenant.h"
 #include <iostream>
 
 Tenant::Tenant(const string& name, const string& address, const string& phone)
@@ -17,7 +17,7 @@ void Tenant::display_info() const
     cout << "  - Nombre de contrats : " << contracts.size() << endl;
     if (!contracts.empty())
     {
-        cout << "  - D�tail des contrats :" << endl;
+        cout << "  - Détail des contrats :" << endl;
         for (size_t i = 0; i < contracts.size(); ++i)
         {
             contracts[i]->display_details();

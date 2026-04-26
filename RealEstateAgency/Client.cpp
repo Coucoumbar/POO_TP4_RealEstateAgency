@@ -1,4 +1,4 @@
-#include "Client.h"
+﻿#include "Client.h"
 #include <iostream>
 
 // Constructor
@@ -21,7 +21,7 @@ void Client::display_info() const
 
     if (!contracts.empty())
     {
-        cout << "  - D�tail des contrats :" << endl;
+        cout << "  - Détail des contrats :" << endl;
         for (size_t i = 0; i < contracts.size(); ++i)
         {
             contracts[i]->display_details();

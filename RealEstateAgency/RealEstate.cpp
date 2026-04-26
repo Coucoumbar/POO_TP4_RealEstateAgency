@@ -1,4 +1,4 @@
-#include "RealEstate.h"
+﻿#include "RealEstate.h"
 
 int RealEstate::current_id = 0;
 

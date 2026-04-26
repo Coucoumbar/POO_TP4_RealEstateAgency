@@ -1,4 +1,4 @@
-#include "Owner.h"
+ï»¿#include "Owner.h"
 #include <iostream>
 
 // Constructor
@@ -23,11 +23,11 @@ void Owner::add_contract(Contract* contract)
 void Owner::display_info() const
 {
     Person::display_info();
-    cout << "  - Nombre de biens possédés : " << owned.size() << endl;
+    cout << "  - Nombre de biens possÃ©dÃ©s : " << owned.size() << endl;
     cout << "  - Nombre de contrats     : " << contracts.size() << endl;
     if (!contracts.empty())
     {
-        cout << "  - Détail des contrats :" << endl;
+        cout << "  - DÃ©tail des contrats :" << endl;
         for (size_t i = 0; i < contracts.size(); ++i)
         {
             contracts[i]->display_details();

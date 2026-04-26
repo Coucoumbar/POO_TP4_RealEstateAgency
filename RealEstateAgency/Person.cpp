@@ -1,4 +1,4 @@
-#include "Person.h"
+ï»¿#include "Person.h"
 #include <iostream>
 
 // Initialization of the static id counter
@@ -22,7 +22,7 @@ void Person::display_info() const
     cout << "(" << id << ") : " << endl;
     cout << "  - Nom : " << name << endl;
     cout << "  - Adresse : " << address << endl;
-    cout << "  - Téléphone : " << phone << endl;
+    cout << "  - TÃ©lÃ©phone : " << phone << endl;
 }
 
 // Getters
