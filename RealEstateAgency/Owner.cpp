@@ -8,23 +8,29 @@ Owner::Owner(const string& name, const string& address, const string& phone)
 }
 
 // Add a property to the owner's list of owned properties
-void Owner::addOwnership(RealEstate* property)
+void Owner::add_ownership(RealEstate* property)
 {
     owned.push_back(property);
 }
 
 // Add a contract to the owner's list of contracts
-void Owner::addContract(Contract* contract)
+void Owner::add_contract(Contract* contract)
 {
     contracts.push_back(contract);
 }
 
 // Display owner's informations
-void Owner::displayInfo() const
+void Owner::display_info() const
 {
-    cout << "--- Propriétaire ---" << endl;
-    Person::displayInfo();
-    cout << "Nombre de biens possédés : " << owned.size() << endl;
-    cout << "Nombre de contrats     : " << contracts.size() << endl;
-    // À suivre quand Contract et RealEstate sont implémenté : afficher les détails de chaqu'un
+    Person::display_info();
+    cout << "  - Nombre de biens possédés : " << owned.size() << endl;
+    cout << "  - Nombre de contrats     : " << contracts.size() << endl;
+    if (!contracts.empty())
+    {
+        cout << "  - Détail des contrats :" << endl;
+        for (size_t i = 0; i < contracts.size(); ++i)
+        {
+            contracts[i]->display_details();
+        }
+    }
 }

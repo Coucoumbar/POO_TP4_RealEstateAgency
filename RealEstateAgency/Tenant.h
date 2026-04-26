@@ -12,7 +12,7 @@ private:
 public:
 	Tenant(const string& name, const string& address, const string& phone);
 
-	void addContract(Contract* contract);
-	void displayInfo() const override;
+	void add_contract(Contract* contract);
+	void display_info() const override;
 };
 

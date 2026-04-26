@@ -8,6 +8,7 @@
 #include "Person.h"
 #include "Client.h"
 #include "Owner.h"
+#include "Tenant.h"
 #include "Contract.h"
 #include "Transaction.h"
 
@@ -17,19 +18,22 @@ class Agency
 {
 private:
 	vector<RealEstate> real_estates;
-	vector<Client> clients;
-	vector<Owner> owners;
-	vector<Contract> contracts;
-	vector<Transaction> transactions;
+	vector<Client*> clients;
+	vector<Owner*> owners;
+	vector<Tenant*> tenants;
+	vector<Contract*> contracts;
+	vector<Transaction*> transactions;
 
 public:
 	Agency();
 
 	void add_real_estate(const RealEstate);
 	void create_real_estate();
-	void add_client();
-	void add_owner();
+	void create_person();
+	void add_client(Client*);
+	void add_owner(Owner*);
 	void list_options();
+	void list_persons();
 	void create_contract();
 	void save_transaction();
 };

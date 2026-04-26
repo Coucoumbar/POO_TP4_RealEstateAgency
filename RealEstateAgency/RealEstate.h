@@ -21,5 +21,11 @@ public:
 	
 	virtual void display_details() const;
 	void update_status(const string&);
+
+	string get_id() const;
+	string get_address() const;
+	string get_surface() const;
+	string get_type() const;
+	string get_status() const;
 };
 

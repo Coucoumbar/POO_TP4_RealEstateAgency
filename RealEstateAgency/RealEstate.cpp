@@ -27,3 +27,24 @@ void RealEstate::display_details() const {
 void RealEstate::update_status(const string& value) {
 	status = value;
 }
+
+// Getters
+string RealEstate::get_id() const {
+	return id;
+}
+
+string RealEstate::get_address() const {
+	return address;
+}
+
+string RealEstate::get_surface() const {
+	return to_string(surface);
+}
+
+string RealEstate::get_type() const {
+	return type;
+}
+
+string RealEstate::get_status() const {
+	return status;
+}

@@ -17,27 +17,27 @@ Person::Person(const string& name, const string& address, const string& phone)
 Person::~Person() {}
 
 
-void Person::displayInfo() const
+void Person::display_info() const
 {
-    cout << "ID: " << id << endl;
-    cout << "Nom: " << name << endl;
-    cout << "Adresse: " << address << endl;
-    cout << "Téléphone: " << phone << endl;
+    cout << "(" << id << ") : " << endl;
+    cout << "  - Nom : " << name << endl;
+    cout << "  - Adresse : " << address << endl;
+    cout << "  - Téléphone : " << phone << endl;
 }
 
 // Getters
-string Person::getId() const {
+string Person::get_id() const {
     return id;
 }
 
-string Person::getName() const {
+string Person::get_name() const {
     return name;
 }
 
-string Person::getAddress() const {
+string Person::get_address() const {
     return address;
 }
 
-string Person::getPhone() const {
+string Person::get_phone() const {
     return phone;
 }

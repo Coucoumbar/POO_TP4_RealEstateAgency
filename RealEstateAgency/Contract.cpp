@@ -25,12 +25,13 @@ void Contract::sign()
 }
 
 void Contract::display_details() const {
-    cout << "--- Contrat " << id << " ---" << endl;
-    cout << "Type   : " << type << endl;
-    cout << "Date   : " << date << endl;
-    cout << "Termes : " << terms << endl;
-    cout << "Statut : " << status << endl;
-    cout << "Bien   : " << "A Remplir" << endl; // À adapter quand RealEstate aura un getter
+    cout << "  ~~ Contrat " << id << " ~~" << endl;
+    cout << "    - Type   : " << type << endl;
+    cout << "    - Date   : " << date << endl;
+    cout << "    - Termes : " << terms << endl;
+    cout << "    - Statut : " << status << endl;
+    cout << "    - Bien   : " << property->get_id() << endl;
+    cout << "  ~~~~~~~~~~~~~~~~~~~~~" << endl;
 }
 
 string Contract::getId() const {

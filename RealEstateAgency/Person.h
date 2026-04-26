@@ -17,11 +17,11 @@ public:
 	Person(const string& name, const string& address, const string& phone);
 	virtual ~Person();
 
-	virtual void displayInfo() const;
+	virtual void display_info() const;
 
-	string getId() const;
-	string getName() const;
-	string getAddress() const;
-	string getPhone() const;
+	string get_id() const;
+	string get_name() const;
+	string get_address() const;
+	string get_phone() const;
 };
 

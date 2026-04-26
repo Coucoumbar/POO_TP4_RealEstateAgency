@@ -15,8 +15,8 @@ private:
 public:
 	Owner(const string& name, const string& address, const string& phone);
 
-	void addOwnership(RealEstate* property);
-	void addContract(Contract* contract);
-	void displayInfo() const override;
+	void add_ownership(RealEstate* property);
+	void add_contract(Contract* contract);
+	void display_info() const override;
 };
 
