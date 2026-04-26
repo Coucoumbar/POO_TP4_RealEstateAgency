@@ -289,7 +289,7 @@ void Agency::create_contract()
 		contracts.push_back(new_contract);
 		selected_client->add_contract(new_contract);
 		selected_owner->add_contract(new_contract);
-		cout << "\n Contrat " << new_contract->getId() << " cree avec succes.\n";
+		cout << "\n Contrat " << new_contract->get_id() << " cree avec succes.\n";
 	}
 	catch (const exception& e) {
 		cout << " Erreur lors de la creation du contrat : " << e.what() << endl;
@@ -367,5 +367,10 @@ void Agency::list_persons()
 }
 
 void Agency::save_transaction() {
+
+}
+
+void Agency::sign_contract()
+{
 
 }

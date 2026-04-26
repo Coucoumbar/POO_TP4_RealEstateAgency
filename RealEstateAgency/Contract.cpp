@@ -35,22 +35,22 @@ void Contract::display_details() const {
     cout << "  ~~~~~~~~~~~~~~~~~~~~~" << endl;
 }
 
-string Contract::getId() const {
+string Contract::get_id() const {
     return id;
 }
 
-string Contract::getDate() const {
+string Contract::get_date() const {
     return date;
 }
 
-string Contract::getType() const {
+string Contract::get_type() const {
     return type;
 }
 
-string Contract::getStatus() const {
+string Contract::get_status() const {
     return status;
 }
 
-RealEstate* Contract::getProperty() const {
+RealEstate* Contract::get_property() const {
     return property;
 }

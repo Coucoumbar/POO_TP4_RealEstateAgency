@@ -37,5 +37,6 @@ public:
 	void list_options();
 	void list_persons();
 	void save_transaction();
+	void sign_contract();
 };
 

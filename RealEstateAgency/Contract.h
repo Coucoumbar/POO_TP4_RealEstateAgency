@@ -24,10 +24,10 @@ public:
 	void display_details() const;
 	void sign();
 
-	string getId() const;
-	string getDate() const;
-	string getType() const;
-	string getStatus() const;
-	RealEstate* getProperty() const;
+	string get_id() const;
+	string get_date() const;
+	string get_type() const;
+	string get_status() const;
+	RealEstate* get_property() const;
 };
 
