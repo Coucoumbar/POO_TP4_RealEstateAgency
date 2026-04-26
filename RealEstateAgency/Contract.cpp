@@ -1,5 +1,6 @@
 #include "Contract.h"
 #include <iostream>
+#include <stdexcept>
 
 int Contract::nextId = 0;
 

@@ -19,9 +19,13 @@ int main()
 
 	Client* client1 = new Client("Jean Dupont", "123 Rue Principale", "418-456-1234");
 	agency.add_client(client1);
+	Client* client2 = new Client("Yvon Tremblay", "43 Rue Secondaire", "654-623-6483");
+	agency.add_client(client2);
 
 	Owner* owner1 = new Owner("Alice Martin", "789 Boulevard des Fleurs", "555-123-4567");
 	agency.add_owner(owner1);
+	Owner* owner2 = new Owner("Martin Pecheur", "2937 Avenue des Pins", "525-243-5452");
+	agency.add_owner(owner2);
 
 	owner1->add_ownership(&real_estate1);
 

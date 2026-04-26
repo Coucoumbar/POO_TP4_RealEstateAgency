@@ -26,15 +26,16 @@ private:
 
 public:
 	Agency();
+	~Agency();
 
 	void add_real_estate(const RealEstate);
 	void create_real_estate();
 	void create_person();
+	void create_contract();
 	void add_client(Client*);
 	void add_owner(Owner*);
 	void list_options();
 	void list_persons();
-	void create_contract();
 	void save_transaction();
 };
 

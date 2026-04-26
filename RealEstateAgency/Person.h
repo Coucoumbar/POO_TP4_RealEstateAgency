@@ -24,4 +24,3 @@ public:
 	string get_address() const;
 	string get_phone() const;
 };
-
