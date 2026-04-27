@@ -24,3 +24,8 @@ void Tenant::display_info() const
         }
     }
 }
+
+void Tenant::add_tenancy(RealEstate* property)
+{
+    rented_properties.push_back(property);
+}

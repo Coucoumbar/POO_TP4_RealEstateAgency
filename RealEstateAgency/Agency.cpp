@@ -361,4 +361,100 @@ void Agency::sign_contract() {
 		cout << " Nom incorrect. Signature annulee.\n";
 		return;
 	}
+
+	// Change contract status to "Signé"
+	try {
+		selected_contract->sign();
+	}
+	catch (const exception& e) {
+		cout << " Erreur : " << e.what() << endl;
+		return;
+	}
+
+	// Update real estate status
+	RealEstate* property = selected_contract->get_property();
+	string contract_type = selected_contract->get_type();
+	if (contract_type == "Vente") {
+		property->update_status("Vendu");
+	}
+	else {
+		property->update_status("En Location");
+	}
+
+	// Transfer ownership if it's a sale
+	if (contract_type == "Vente") {
+		// Remove ownership from the current owner
+		current_owner->remove_ownership(property);
+
+		// Create a new owner for the client (or find an existing one if the client is already an owner)
+		Owner* target_owner = nullptr;
+		// Search if the client is already an owner (same name, address, phone)
+		for (Owner* o : owners) {
+			if (o->get_name() == selected_client->get_name() &&
+				o->get_address() == selected_client->get_address() &&
+				o->get_phone() == selected_client->get_phone()) {
+				target_owner = o;
+				break;
+			}
+		}
+		if (!target_owner) {
+			// Create a new owner based on the client's info
+			target_owner = new Owner(selected_client->get_name(),
+				selected_client->get_address(),
+				selected_client->get_phone());
+			owners.push_back(target_owner);
+		}
+		// Add ownership and contract to the target owner
+		target_owner->add_ownership(property);
+		target_owner->add_contract(selected_contract);
+		selected_contract->set_owner(target_owner);
+	}
+	else if (contract_type == "Location")
+	{
+		// Create a new tenant for the client (or find an existing one if the client is already a tenant)
+		Tenant* target_tenant = nullptr;
+		// Search if the client is already a tenant (same name, address, phone)
+		for (Tenant* o : tenants) {
+			if (o->get_name() == selected_client->get_name() &&
+				o->get_address() == selected_client->get_address() &&
+				o->get_phone() == selected_client->get_phone()) {
+				target_tenant = o;
+				break;
+			}
+		}
+		if (!target_tenant) {
+			// Create a new tenant based on the client's info
+			target_tenant = new Tenant(selected_client->get_name(),
+				selected_client->get_address(),
+				selected_client->get_phone());
+			tenants.push_back(target_tenant);
+		}
+		// Add tenancy and contract to the target tenant
+		target_tenant->add_tenancy(property);
+		target_tenant->add_contract(selected_contract);
+	}
+
+	// Link the contract to the client
+	selected_contract->set_client(selected_client);
+	selected_client->add_contract(selected_contract);
+
+	// Create new transaction for this contract
+	double price = selected_contract->get_price();
+	string trans_type = (contract_type == "Location") ? "Loyer" : "Vente";
+	Transaction* new_transaction = nullptr;
+	try {
+		new_transaction = new Transaction(price, selected_contract->get_date(), trans_type, selected_contract);
+		transactions.push_back(new_transaction);
+		cout << " Transaction " << new_transaction->get_id() << " enregistree.\n";
+	}
+	catch (const exception& e) {
+		cout << " Erreur lors de l'enregistrement de la transaction : " << e.what() << endl;
+		delete new_transaction;
+	}
+
+	cout << "\n Contrat " << selected_contract->get_id() << " signe avec succes.\n";
+	cout << " Bien " << property->get_address() << " : " << property->get_status() << ".\n";
+	if (contract_type == "Vente") {
+		cout << " " << selected_client->get_name() << " devient proprietaire.\n";
+	}
 }

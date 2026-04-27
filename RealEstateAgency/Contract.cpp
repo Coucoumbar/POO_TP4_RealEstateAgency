@@ -70,3 +70,11 @@ Client* Contract::get_client() const {
 Owner* Contract::get_owner() const {
     return owner;
 }
+
+void Contract::set_owner(Owner* new_owner) {
+    owner = new_owner;
+}
+
+void Contract::set_client(Client* new_client) {
+    client = new_client;
+}

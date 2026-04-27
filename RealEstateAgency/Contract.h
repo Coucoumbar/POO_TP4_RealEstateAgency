@@ -42,5 +42,7 @@ public:
 	RealEstate* get_property() const;
 	Owner* get_owner() const;
 	Client* get_client() const;
+	void set_owner(Owner* new_owner);
+	void set_client(Client* new_client);
 };
 
