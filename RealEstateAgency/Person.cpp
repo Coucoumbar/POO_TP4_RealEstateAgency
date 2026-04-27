@@ -5,24 +5,30 @@
 int Person::nextId = 0;
 
 // Constructor
-Person::Person(const string& name, const string& address, const string& phone)
-    : id("PER-" + to_string(++nextId)),
+Person::Person(
+    const string& name, 
+    const string& address, 
+    const string& phone, 
+    const string& type
+) : 
+    id("PER-" + to_string(++nextId)),
     name(name),
     address(address),
-    phone(phone)
-{
-}
+    phone(phone),
+    type(type)
+{}
 
 // Destructor
 Person::~Person() {}
 
 
-void Person::display_info() const
+void Person::display() const
 {
-    cout << "(" << id << ") : " << endl;
-    cout << "  - Nom : " << name << endl;
-    cout << "  - Adresse : " << address << endl;
-    cout << "  - Téléphone : " << phone << endl;
+    Itf::subtitle(id);
+
+    Itf::display_value("Nom", name);
+    Itf::display_value("Adresse", address);
+    Itf::display_value("Téléphone", phone);
 }
 
 // Getters
@@ -40,4 +46,8 @@ string Person::get_address() const {
 
 string Person::get_phone() const {
     return phone;
+}
+
+string Person::get_type() const {
+    return type;
 }

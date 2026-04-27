@@ -3,7 +3,10 @@
 #include <string>
 #include <iostream>
 
+#include "Interface.hpp"
+
 using namespace std;
+using Itf = Interface;
 
 class RealEstate
 {
@@ -19,7 +22,7 @@ protected:
 public:
 	RealEstate(const string&, double, const string&);
 	
-	virtual void display_details() const;
+	virtual void display() const;
 	void update_status(const string&);
 
 	string get_id() const;

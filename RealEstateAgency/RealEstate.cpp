@@ -7,21 +7,20 @@ RealEstate::RealEstate(
 	double surface,
 	const string& type
 ) :
+	id("REA-" + to_string(++current_id)),
 	address(address),
 	surface(surface),
-	type(type)
-{
-	id = "REA-" + to_string(++current_id);
-	status = "Non-vendu";
-}
+	type(type),
+	status("Non-vendu")
+{}
 
-void RealEstate::display_details() const {
-	cout
-		<< " (" << id << ") :\n"
-		<< "  - Adresse : " << address << endl
-		<< "  - Surface : " << surface << " metres carres" << endl
-		<< "  - Type : " << type << endl
-		<< "  - Statut : " << status << endl;
+void RealEstate::display() const {
+	Itf::subtitle(id);
+
+	Itf::display_value("Adresse", address);
+	Itf::display_value("Surface", to_string(surface));
+	Itf::display_value("Type", type);
+	Itf::display_value("Statut", status);
 }
 
 void RealEstate::update_status(const string& value) {

@@ -12,78 +12,78 @@ Agency::~Agency() {
 	for (auto tr : transactions) delete tr;
 }
 
-void Agency::create_person()
-{
-	int type_choice;
-	cout << "\n\n ===== NOUVELLE PERSONNE =====\n\n";
-	cout << " [1] Client\n";
-	cout << " [2] Proprietaire\n";
-	cout << " [3] Locataire\n";
-	cout << " [0] Annuler\n";
-	cout << " Choix : ";
-
-	while (!(cin >> type_choice) || type_choice < 0 || type_choice > 3)
-	{
-		cin.clear();
-		cin.ignore(INT_MAX, '\n');
-		cout << " *Entrez un choix valide : ";
-	}
-	cin.ignore(INT_MAX, '\n');
-
-	if (type_choice == 0) return;
-
-	string name, address, phone;
-
-	cout << "\n Informations\n";
-	cout << " - Nom : ";
-	getline(cin, name);
-	while (name.empty())
-	{
-		cout << "   (Le nom ne peut pas etre vide) - Nom : ";
-		getline(cin, name);
-	}
-
-	cout << " - Adresse : ";
-	getline(cin, address);
-	while (address.empty())
-	{
-		cout << "   (L'adresse ne peut pas etre vide) - Adresse : ";
-		getline(cin, address);
-	}
-
-	cout << " - Telephone : ";
-	getline(cin, phone);
-	while (phone.empty())
-	{
-		cout << "   (Le telephone ne peut pas etre vide) - Telephone : ";
-		getline(cin, phone);
-	}
-
-	switch (type_choice)
-	{
-		case 1:
-		{
-			Client* new_client = new Client(name, address, phone);
-			clients.push_back(new_client);
-			cout << "\n Client " << new_client->get_id() << " (" << new_client->get_name() << ") cree avec succes.\n";
-			break;
-		}
-		case 2:
-		{
-			Owner* new_owner = new Owner(name, address, phone);
-			owners.push_back(new_owner);
-			cout << "\n Proprietaire " << new_owner->get_id() << " (" << new_owner->get_name() << ") cree avec succes.\n";
-			break;
-		}
-		case 3:
-		{
-			Tenant* new_tenant = new Tenant(name, address, phone);
-			tenants.push_back(new_tenant);
-			cout << "\n Locataire " << new_tenant->get_id() << " (" << new_tenant->get_name() << ") cree avec succes.\n";
-			break;
-		}
-	}
-}
+//void Agency::create_person()
+//{
+//	int type_choice;
+//	cout << "\n\n ===== NOUVELLE PERSONNE =====\n\n";
+//	cout << " [1] Client\n";
+//	cout << " [2] Proprietaire\n";
+//	cout << " [3] Locataire\n";
+//	cout << " [0] Annuler\n";
+//	cout << " Choix : ";
+//
+//	while (!(cin >> type_choice) || type_choice < 0 || type_choice > 3)
+//	{
+//		cin.clear();
+//		cin.ignore(INT_MAX, '\n');
+//		cout << " *Entrez un choix valide : ";
+//	}
+//	cin.ignore(INT_MAX, '\n');
+//
+//	if (type_choice == 0) return;
+//
+//	string name, address, phone;
+//
+//	cout << "\n Informations\n";
+//	cout << " - Nom : ";
+//	getline(cin, name);
+//	while (name.empty())
+//	{
+//		cout << "   (Le nom ne peut pas etre vide) - Nom : ";
+//		getline(cin, name);
+//	}
+//
+//	cout << " - Adresse : ";
+//	getline(cin, address);
+//	while (address.empty())
+//	{
+//		cout << "   (L'adresse ne peut pas etre vide) - Adresse : ";
+//		getline(cin, address);
+//	}
+//
+//	cout << " - Telephone : ";
+//	getline(cin, phone);
+//	while (phone.empty())
+//	{
+//		cout << "   (Le telephone ne peut pas etre vide) - Telephone : ";
+//		getline(cin, phone);
+//	}
+//
+//	switch (type_choice)
+//	{
+//		case 1:
+//		{
+//			Client* new_client = new Client(name, address, phone);
+//			clients.push_back(new_client);
+//			cout << "\n Client " << new_client->get_id() << " (" << new_client->get_name() << ") cree avec succes.\n";
+//			break;
+//		}
+//		case 2:
+//		{
+//			Owner* new_owner = new Owner(name, address, phone);
+//			owners.push_back(new_owner);
+//			cout << "\n Proprietaire " << new_owner->get_id() << " (" << new_owner->get_name() << ") cree avec succes.\n";
+//			break;
+//		}
+//		case 3:
+//		{
+//			Tenant* new_tenant = new Tenant(name, address, phone);
+//			tenants.push_back(new_tenant);
+//			cout << "\n Locataire " << new_tenant->get_id() << " (" << new_tenant->get_name() << ") cree avec succes.\n";
+//			break;
+//		}
+//	}
+//}
 
 void Agency::create_contract()
 {
@@ -223,8 +223,12 @@ void Agency::create_contract()
 	}
 }
 
-void Agency::add_real_estate(RealEstate* content) {
-	real_estates.push_back(content);
+void Agency::add_property(RealEstate* content) {
+	properties.push_back(content);
+}
+
+void Agency::add_person(Person* content) {
+	persons.push_back(content);
 }
 
 void Agency::add_client(Client* client) {
@@ -238,10 +242,10 @@ void Agency::add_owner(Owner* owner) {
 void Agency::list_options() {
 	cout << "\n\n ===== BIENS IMMOBILIERS =====\n\n";
 
-	for (int i = 1; i <= real_estates.size(); i++)
+	for (int i = 1; i <= properties.size(); i++)
 	{
 		cout << "\n [" << i << "]";
-		real_estates[i - 1]->display_details();
+		properties[i - 1]->display();
 	}
 }
 
@@ -258,7 +262,7 @@ void Agency::list_persons()
 		for (size_t i = 0; i < clients.size(); ++i)
 		{
 			cout << "[" << (i + 1) << "] ";
-			clients[i]->display_info();
+			clients[i]->display();
 			cout << endl;
 		}
 	}
@@ -272,7 +276,7 @@ void Agency::list_persons()
 		for (size_t i = 0; i < owners.size(); ++i)
 		{
 			cout << "[" << (i + 1) << "] ";
-			owners[i]->display_info();
+			owners[i]->display();
 			cout << endl;
 		}
 	}
@@ -286,7 +290,7 @@ void Agency::list_persons()
 		for (size_t i = 0; i < tenants.size(); ++i)
 		{
 			cout << "[" << (i + 1) << "] ";
-			tenants[i]->display_info();
+			tenants[i]->display();
 			cout << endl;
 		}
 	}
@@ -457,4 +461,15 @@ void Agency::sign_contract() {
 	if (contract_type == "Vente") {
 		cout << " " << selected_client->get_name() << " devient proprietaire.\n";
 	}
+}
+
+vector<Person*> Agency::filter_persons(const string& filter) {
+	vector<Person*> filtered;
+
+	for (Person* p : persons)
+	{
+		if (p->get_type() == filter) filtered.push_back(p);
+	}
+
+	return filtered;
 }

@@ -14,6 +14,6 @@ public:
 	Client(const string& name, const string& address, const string& phone);
 
 	void add_contract(Contract* contract);
-	void display_info() const override;
+	void display() const override;
 };
 

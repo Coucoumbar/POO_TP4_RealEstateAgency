@@ -1,7 +1,9 @@
-#pragma once
+﻿#pragma once
 
 #include <iostream>
 #include <type_traits>
+#include <concepts>
+#include <vector>
 #include <string>
 
 using namespace std;
@@ -86,17 +88,53 @@ public:
 			cout << " [" << i << "] " << choices[i - 1] << endl;
 		}
 
+		cout << endl;
+
 		text_field("Choix");
 	}
 
+	template <typename T>
+	static void detailed_list(vector<T*>& objects) {
+		if (objects.empty()) 
+		{
+			error("Aucun item trouvé");
+			return;
+		}
+
+		for (size_t i = 1; i <= objects.size(); i++)
+		{
+			cout << endl << " [" << i << "]";
+			objects[i - 1]->display();
+		}
+
+		cout << endl;
+	}
+
+	template <typename T>
+	static void simple_list(const vector<T*>& objects) {
+		if (objects.empty())
+		{
+			error("Aucun item trouvé");
+			return;
+		}
+
+		for (size_t i = 1; i <= objects.size(); i++)
+		{
+			cout << " " << i << ". " << objects[i - 1]->get_id();
+		}
+	}
 
 
 	static void error(const string& message) {
-		cout << "\033[31m" << " * " << message << "\033[0m";
+		cout << "\033[91m" << " * " << message << "\033[0m";
+	}
+
+	static void confirm(const string& message) {
+		cout << endl << "\033[92m" << " > " << message << "\033[0m" << endl;
 	}
 
 	static void back() {
-		cout << endl << "\033[34m" << " < " << "Retour" << "\033[0m";
+		cout << endl << "\033[94m" << " < " << "Retour" << "\033[0m" << endl;
 	}
 
 

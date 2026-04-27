@@ -28,7 +28,7 @@ void Contract::sign()
     status = "Signé";
 }
 
-void Contract::display_details() const {
+void Contract::display() const {
     cout << "  ~~ Contrat " << id << " ~~" << endl;
     cout << "    - Type   : " << type << endl;
     cout << "    - Date   : " << date << endl;

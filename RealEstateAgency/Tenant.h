@@ -15,6 +15,6 @@ public:
 
 	void add_contract(Contract* contract);
 	void add_tenancy(RealEstate* property);
-	void display_info() const override;
+	void display() const override;
 };
 

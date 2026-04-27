@@ -18,7 +18,7 @@ public:
 	void add_ownership(RealEstate* property);
 	void remove_ownership(RealEstate* property);
 	void add_contract(Contract* contract);
-	void display_info() const override;
+	void display() const override;
 
 	vector<RealEstate*> get_owned() const;
 };

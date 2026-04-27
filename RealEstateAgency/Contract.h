@@ -31,7 +31,7 @@ private:
 public:
 	Contract(RealEstate* property, const string& date, const string& type, const string& terms, double price, Owner* owner = nullptr);
 
-	void display_details() const;
+	void display() const;
 	void sign();
 
 	string get_id() const;

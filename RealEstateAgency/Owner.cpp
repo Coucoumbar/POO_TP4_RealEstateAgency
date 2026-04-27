@@ -3,7 +3,7 @@
 
 // Constructor
 Owner::Owner(const string& name, const string& address, const string& phone)
-    : Person(name, address, phone)
+    : Person(name, address, phone, "Propriétaire")
 {
 }
 
@@ -26,18 +26,18 @@ void Owner::add_contract(Contract* contract)
 }
 
 // Display owner's informations
-void Owner::display_info() const
+void Owner::display() const
 {
-    Person::display_info();
-    cout << "  - Nombre de biens possédés : " << owned.size() << endl;
-    cout << "  - Nombre de contrats     : " << contracts.size() << endl;
+    Person::display();
+
+    cout << endl;
+
+    Itf::display_value("Nombre de propriétés", to_string(owned.size()));
+    Itf::display_value("Nombre de contrats", to_string(contracts.size()));
+
     if (!contracts.empty())
     {
-        cout << "  - Détail des contrats :" << endl;
-        for (size_t i = 0; i < contracts.size(); ++i)
-        {
-            contracts[i]->display_details();
-        }
+        Itf::simple_list<Contract>(contracts);
     }
 }
 

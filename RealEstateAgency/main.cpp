@@ -5,6 +5,9 @@
 
 #include "Agency.h"
 #include "Interface.hpp"
+#include "Apartment.h"
+#include "House.h"
+#include "Land.h"
 
 using namespace std;
 using Itf = Interface;
@@ -12,8 +15,11 @@ using Itf = Interface;
 Agency agency;
 
 void menu();
-RealEstate* real_estate_creation();
+RealEstate* property_creation();
 Person* person_creation();
+void person_list();
+Person* person_choice(const string&);
+void property_choice();
 
 
 int main()
@@ -25,23 +31,27 @@ int main()
 	
 
 	RealEstate* rea1 = new RealEstate("693 Rabelais", 200, "Maison");
-	agency.add_real_estate(rea1);
+	agency.add_property(rea1);
 	RealEstate* rea2 = new RealEstate("201 Bernard", 10.5, "Appartement");
-	agency.add_real_estate(rea1);
+	agency.add_property(rea1);
 	RealEstate* rea3 = new RealEstate("164 Camion", 30, "Terrain");
-	agency.add_real_estate(rea1);
+	agency.add_property(rea1);
 	RealEstate* rea4 = new RealEstate("222 Lac", 2000, "Maison");
-	agency.add_real_estate(rea1);
+	agency.add_property(rea1);
 
 	Client* client1 = new Client("Jean Dupont", "123 Rue Principale", "418-456-1234");
 	agency.add_client(client1);
+	agency.add_person(client1);
 	Client* client2 = new Client("Yvon Tremblay", "43 Rue Secondaire", "654-623-6483");
 	agency.add_client(client2);
+	agency.add_person(client2);
 
 	Owner* owner1 = new Owner("Alice Martin", "789 Boulevard des Fleurs", "555-123-4567");
 	agency.add_owner(owner1);
+	agency.add_person(owner1);
 	Owner* owner2 = new Owner("Martin Pecheur", "2937 Avenue des Pins", "525-243-5452");
 	agency.add_owner(owner2);
+	agency.add_person(owner2);
 
 	owner1->add_ownership(rea1);
 
@@ -55,6 +65,7 @@ int main()
 void menu() {
 	do
 	{
+		Itf::space();
 		Itf::title("MENU");
 
 		vector<string> choices;
@@ -79,20 +90,29 @@ void menu() {
 		switch (choice)
 		{
 		case 1:
-			agency.create_person();
+		{
+			Person* per = person_creation();
+			if (per == nullptr)
+			{
+				Itf::back();
+				continue;
+			}
+			agency.add_person(per);
 			break;
+		}
 		case 2:
-			agency.list_persons();
+			person_list();
 			break;
 		case 3: 
 		{
-			RealEstate* rea = real_estate_creation();
+			RealEstate* rea = property_creation();
 			if (rea == nullptr)
 			{
 				Itf::back();
 				continue;
 			}
-			agency.add_real_estate(rea);
+			agency.add_property(rea);
+			Itf::confirm("Propriété ajouté!");
 			break;
 		}
 		case 4:
@@ -109,15 +129,35 @@ void menu() {
 	} while (true);
 }
 
-RealEstate* real_estate_creation() 
+RealEstate* property_creation() 
 {
 	Itf::space();
-
 	Itf::title("NOUVEAU BIEN IMMOBILIER");
 
 
 
+	vector<string> types;
+	types =
+	{
+		"Appartement",
+		"Maison",
+		"Terrain",
+		"Annuler"
+	};
+	Itf::choice_field("Type", types);
+	int type = Itf::num_input<int>(1, types.size());
+
+	if (type == types.size()) return nullptr;
+
+	cout << endl;
+
 	Itf::subtitle("Informations");
+
+	Person* person = nullptr;
+	if (types[type - 1] == "Appartement")
+	{
+		person = person_choice("Propriétaire");
+	}
 
 	Itf::text_field("Adresse");
 	string address = Itf::text_input(1, -1);
@@ -125,35 +165,133 @@ RealEstate* real_estate_creation()
 	Itf::text_field("Surface");
 	double surface = Itf::num_input<double>(5, -1);
 
-	vector<string> choices;
+	cout << endl;
 
-	choices =
+	Itf::subtitle("Resume");
+	if (person != nullptr)
 	{
-		"Appartement",
-		"Maison",
-		"Terrain"
+		Itf::display_value("Propriétaire", person->get_name());
+	}
+	Itf::display_value("Adresse", address);
+	Itf::display_value("Surface", to_string(surface));
+	Itf::display_value("Type", types[type - 1]);
+
+	cout << endl;
+
+	Itf::choice_field("Action", {"Sauvegarder", "Annuler"});
+	int action = Itf::num_input<int>(1, 2);
+
+	if (action == 2) return nullptr;
+
+	switch (type)
+	{
+	case 1:
+		return new Apartment(person, address, surface, types[type - 1]);
+	}
+
+	return new RealEstate(address, surface, types[type - 1]);
+}
+
+Person* person_creation() 
+{
+	Itf::space();
+	Itf::title("NOUVELLE PERSONNE");
+
+	vector<string> types;
+
+	types =
+	{
+		"Client",
+		"Propriétaire",
+		"Locataire",
+		"Annuler"
 	};
-	Itf::choice_field("Type", choices);
-	string type = choices[Itf::num_input<int>(1, choices.size()) - 1];
+	Itf::choice_field("Type", types);
+	int type = Itf::num_input<int>(1, types.size());
+
+	if (type == types.size()) return nullptr;
+
+	string name, address, phone;
+
+	cout << endl;
+
+	Itf::subtitle("Informations");
+
+	Itf::text_field("Nom");
+	name = Itf::text_input(1, -1);
+
+	Itf::text_field("Adresse");
+	address = Itf::text_input(1, -1);
+
+	Itf::text_field("Numéro de téléphone");
+	phone = Itf::text_input(1, -1);
 
 	cout << endl;
 
 	Itf::subtitle("Resume");
+	Itf::display_value("Type", types[type - 1]);
+	Itf::display_value("Nom", name);
 	Itf::display_value("Adresse", address);
-	Itf::display_value("Surface", to_string(surface));
-	Itf::display_value("Type", type);
+	Itf::display_value("Numéro", phone);
 
 	cout << endl;
 
-	choices =
-	{
-		"Sauvegarder",
-		"Annuler"
-	};
-	Itf::choice_field("Action", choices);
-	int action = Itf::num_input<int>(1, choices.size());
+	Itf::choice_field("Action", {"Sauvegarder", "Annuler"});
+	int action = Itf::num_input<int>(1, 2);
 
 	if (action == 2) return nullptr;
 
-	return new RealEstate(address, surface, type);
+	switch (type)
+	{
+	case 1:
+		return new Client(name, address, phone);
+		break;
+	case 2:
+		return new Owner(name, address, phone);
+		break;
+	case 3:
+		return new Tenant(name, address, phone);
+		break;
+	}
+}
+
+void person_list() {
+	Itf::space();
+	Itf::title("LISTE DES PERSONNES");
+
+	vector<string> filters = {
+		"Client",
+		"Propriétaire",
+		"Locataire",
+		"Annuler"
+	};
+
+	Itf::choice_field("Filtre", filters);
+	int filter = Itf::num_input<int>(1, filters.size());
+
+	if (filter == filters.size())
+	{
+		Itf::back();
+		return;
+	}
+
+	cout << endl;
+
+	Itf::subtitle(filters[filter - 1]);
+	vector<Person*> filtered = agency.filter_persons(filters[filter - 1]);
+	Itf::detailed_list<Person>(filtered);
+}
+
+Person* person_choice(const string& filter) {
+
+	Itf::subtitle("Choix du " + filter);
+	vector<Person*> filtered = agency.filter_persons(filter);
+	Itf::detailed_list<Person>(filtered);
+
+	cout << endl;
+
+	Itf::text_field("Choix");
+	int choice = Itf::num_input<int>(1, filtered.size());
+
+	return filtered[choice - 1];
 }

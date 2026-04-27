@@ -6,9 +6,9 @@
 class Apartment : public RealEstate
 {
 private:
-	Owner& owner;
+	Person* owner;
 
 public:
-	Apartment(Owner&, const string&, double, const string&, const string&);
+	Apartment(Person*, const string&, double, const string&);
 };
 
