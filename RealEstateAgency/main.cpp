@@ -45,7 +45,7 @@ int main()
 
 	owner1->add_ownership(rea1);
 
-	Contract* contract1 = new Contract(rea1, "2024-07-01", "Vente", "Termes du contrat");
+	Contract* contract1 = new Contract(rea1, "2024-07-01", "Vente", "Termes du contrat", 100000);
 	client1->add_contract(contract1);
 	owner1->add_contract(contract1);
 

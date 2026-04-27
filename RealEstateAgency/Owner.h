@@ -16,7 +16,10 @@ public:
 	Owner(const string& name, const string& address, const string& phone);
 
 	void add_ownership(RealEstate* property);
+	void remove_ownership(RealEstate* property);
 	void add_contract(Contract* contract);
 	void display_info() const override;
+
+	vector<RealEstate*> get_owned() const;
 };
 

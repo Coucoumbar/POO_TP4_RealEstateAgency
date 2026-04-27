@@ -13,6 +13,12 @@ void Owner::add_ownership(RealEstate* property)
     owned.push_back(property);
 }
 
+void Owner::remove_ownership(RealEstate* property_to_delete) {
+    auto property = find(owned.begin(), owned.end(), property_to_delete);
+    if (property != owned.end())
+        owned.erase(property);
+}
+
 // Add a contract to the owner's list of contracts
 void Owner::add_contract(Contract* contract)
 {
@@ -33,4 +39,8 @@ void Owner::display_info() const
             contracts[i]->display_details();
         }
     }
+}
+
+vector<RealEstate*> Owner::get_owned() const {
+	return owned;
 }

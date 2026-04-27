@@ -4,12 +4,15 @@
 
 int Contract::nextId = 0;
 
-Contract::Contract(RealEstate* property, const string& date, const string& type, const string& terms)
+Contract::Contract(RealEstate* property, const string& date, const string& type,
+    const string& terms, double price, Owner* owner)
     : id("CON-" + to_string(++nextId)),
     property(property),
     date(date),
     type(type),
     terms(terms),
+    price(price),
+    owner(owner),
     status("En attente")
 {
 }
@@ -32,6 +35,7 @@ void Contract::display_details() const {
     cout << "    - Termes : " << terms << endl;
     cout << "    - Statut : " << status << endl;
     cout << "    - Bien   : " << property->get_id() << endl;
+    cout << "    - Prix   : " << price << "$" << endl;  
     cout << "  ~~~~~~~~~~~~~~~~~~~~~" << endl;
 }
 
@@ -53,4 +57,16 @@ string Contract::get_status() const {
 
 RealEstate* Contract::get_property() const {
     return property;
+}
+
+double Contract::get_price() const {
+    return price;
+}
+
+Client* Contract::get_client() const {
+    return client;
+}
+
+Owner* Contract::get_owner() const {
+    return owner;
 }

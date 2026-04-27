@@ -106,25 +106,6 @@ void Agency::create_contract()
 	if (type_contract == 0) return;
 	string type_str = (type_contract == 1) ? "Location" : "Vente";
 
-	// Select a client
-	if (clients.empty()) {
-		cout << " Aucun client enregistre. Operation annulee.\n";
-		return;
-	}
-	cout << "\n Clients disponibles :\n";
-	for (size_t i = 0; i < clients.size(); ++i)
-		cout << " [" << (i + 1) << "] " << clients[i]->get_name() << " (" << clients[i]->get_id() << ")\n";
-	size_t client_index;
-	cout << " Choisissez un client (1.." << clients.size() << ") : ";
-	while (!(cin >> client_index) || client_index < 1 || client_index > clients.size())
-	{
-		cin.clear();
-		cin.ignore(INT_MAX, '\n');
-		cout << " *Entrez un indice valide : ";
-	}
-	cin.ignore(INT_MAX, '\n');
-	Client* selected_client = clients[client_index - 1];
-
 	// Select an owner
 	if (owners.empty()) {
 		cout << " Aucun proprietaire enregistre. Operation annulee.\n";
@@ -146,10 +127,11 @@ void Agency::create_contract()
 
 	// Select a real estate
 	// Filter real estates with the status "Non-vendu"
+	vector<RealEstate*> owned_properties = selected_owner->get_owned();
 	vector<RealEstate*> available;
-	for (size_t i = 0; i < real_estates.size(); ++i)
-		if (real_estates[i]->get_status() == "Non-vendu")
-			available.push_back(real_estates[i]);
+	for (size_t i = 0; i < owned_properties.size(); ++i)
+		if (owned_properties[i]->get_status() == "Non-vendu")
+			available.push_back(owned_properties[i]);
 
 	if (available.empty()) {
 		cout << " Aucun bien disponible pour le moment. Operation annulee.\n";
@@ -168,6 +150,24 @@ void Agency::create_contract()
 	}
 	cin.ignore(INT_MAX, '\n');
 	RealEstate* selected_real_estate = available[real_estate_index - 1];
+
+	// Set the price
+	double price;
+	if (type_contract == 1)
+	{
+		cout << "\n Prix mensuel du loyer : ";
+	}
+	else if (type_contract == 2)
+	{
+		cout << "\n Prix de la propriété : ";
+	}
+	while (!(cin >> price) || price <= 0)
+	{
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cout << " *Entrez un prix valide : ";
+	}
+	cin.ignore(INT_MAX, '\n');
 
 	// Select date and terms
 	string date;
@@ -190,9 +190,9 @@ void Agency::create_contract()
 	// Confirmation
 	cout << "\n Resume du contrat :\n";
 	cout << " Type         : " << type_str << endl;
-	cout << " Client       : " << selected_client->get_name() << " (" << selected_client->get_id() << ")\n";
 	cout << " Proprietaire : " << selected_owner->get_name() << " (" << selected_owner->get_id() << ")\n";
 	cout << " Bien         : " << selected_real_estate->get_address() << " (" << selected_real_estate->get_id() << ")\n";
+	cout << " Prix         : " << price << "$" << endl;
 	cout << " Date         : " << date << endl;
 	cout << " Termes       : " << terms << endl;
 	cout << "\n [1] Confirmer\n [0] Annuler\n Choix : ";
@@ -212,9 +212,8 @@ void Agency::create_contract()
 	// Create the contract and link it to the client and owner
 	Contract* new_contract = nullptr;
 	try {
-		new_contract = new Contract(selected_real_estate, date, type_str, terms);
+		new_contract = new Contract(selected_real_estate, date, type_str, terms, price);
 		contracts.push_back(new_contract);
-		selected_client->add_contract(new_contract);
 		selected_owner->add_contract(new_contract);
 		cout << "\n Contrat " << new_contract->get_id() << " cree avec succes.\n";
 	}
@@ -297,7 +296,69 @@ void Agency::save_transaction() {
 
 }
 
-void Agency::sign_contract()
-{
+void Agency::sign_contract() {
+	cout << "\n\n ===== SIGNATURE DE CONTRAT =====\n\n";
 
+	// Select a pending contract
+	vector<Contract*> pending;
+	for (Contract* c : contracts) {
+		if (c->get_status() == "En attente")
+			pending.push_back(c);
+	}
+	if (pending.empty()) {
+		cout << " Aucun contrat en attente de signature.\n";
+		return;
+	}
+
+	cout << " Contrats en attente :\n";
+	for (size_t i = 0; i < pending.size(); ++i) {
+		Contract* c = pending[i];
+		cout << " [" << (i + 1) << "] Contrat " << c->get_id()
+			<< " | Type: " << c->get_type()
+			<< " | Bien: " << c->get_property()->get_address()
+			<< " | Proprietaire: " << (c->get_owner() ? c->get_owner()->get_name() : "Inconnu")
+			<< " | Prix: " << c->get_price() << "$"
+			<< " | Date: " << c->get_date() << endl;
+	}
+
+	size_t contract_index;
+	cout << " Choisissez un contrat (1.." << pending.size() << ") : ";
+	while (!(cin >> contract_index) || contract_index < 1 || contract_index > pending.size()) {
+		cin.clear(); cin.ignore(INT_MAX, '\n');
+		cout << " *Entrez un indice valide : ";
+	}
+	cin.ignore(INT_MAX, '\n');
+	Contract* selected_contract = pending[contract_index - 1];
+
+	// Select a client to sign the contract
+	if (clients.empty()) {
+		cout << " Aucun client enregistre. Operation annulee.\n";
+		return;
+	}
+	cout << "\n Clients disponibles :\n";
+	for (size_t i = 0; i < clients.size(); ++i)
+		cout << " [" << (i + 1) << "] " << clients[i]->get_name() << " (" << clients[i]->get_id() << ")\n";
+	size_t client_index;
+	cout << " Choisissez le client signataire (1.." << clients.size() << ") : ";
+	while (!(cin >> client_index) || client_index < 1 || client_index > clients.size()) {
+		cin.clear(); cin.ignore(INT_MAX, '\n');
+		cout << " *Entrez un indice valide : ";
+	}
+	cin.ignore(INT_MAX, '\n');
+	Client* selected_client = clients[client_index - 1];
+
+	// Owner signature confirmation
+	Owner* current_owner = selected_contract->get_owner();
+	if (!current_owner) {
+		cout << " Contrat sans proprietaire. Annulation.\n";
+		return;
+	}
+	cout << "\n Proprietaire du bien : " << current_owner->get_name() << endl;
+	cout << " Veuillez réécrire le nom du proprietaire pour confirmer : ";
+	string owner_name_input;
+	getline(cin, owner_name_input);
+	if (owner_name_input != current_owner->get_name()) {
+		cout << " Nom incorrect. Signature annulee.\n";
+		return;
+	}
 }
