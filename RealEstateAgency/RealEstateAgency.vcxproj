@@ -142,6 +142,7 @@
     <ClInclude Include="Apartment.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Contract.h" />
+    <ClInclude Include="Interface.hpp" />
     <ClInclude Include="House.h" />
     <ClInclude Include="Land.h" />
     <ClInclude Include="Owner.h" />

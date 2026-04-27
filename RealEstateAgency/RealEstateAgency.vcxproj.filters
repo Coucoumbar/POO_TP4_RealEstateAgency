@@ -25,6 +25,9 @@
     <Filter Include="Fichiers d%27en-tête\Person">
       <UniqueIdentifier>{29923379-aafc-4e70-a7a6-901e6deb8d44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Display">
+      <UniqueIdentifier>{133abcd2-f9e7-4774-b875-177464eab108}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Tenant.h">
       <Filter>Fichiers d%27en-tête\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.hpp">
+      <Filter>Fichiers d%27en-tête\Display</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

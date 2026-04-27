@@ -4,8 +4,17 @@
 #include <windows.h>
 
 #include "Agency.h"
+#include "Interface.hpp"
 
 using namespace std;
+using Itf = Interface;
+
+Agency agency;
+
+void menu();
+RealEstate* real_estate_creation();
+Person* person_creation();
+
 
 int main()
 {
@@ -13,13 +22,16 @@ int main()
 	SetConsoleCP(CP_UTF8);
 
 	// Initial Data
-	Agency agency;
+	
 
-	RealEstate real_estate1 = RealEstate("693 Rabelais", 200, "Maison");
-	agency.add_real_estate(real_estate1);
-	agency.add_real_estate({ "603 Avion", 10.5, "Appartement" });
-	agency.add_real_estate({ "207 Bateau", 30, "Terrain" });
-	agency.add_real_estate({ "1369 Bernard", 1000, "Maison" });
+	RealEstate* rea1 = new RealEstate("693 Rabelais", 200, "Maison");
+	agency.add_real_estate(rea1);
+	RealEstate* rea2 = new RealEstate("201 Bernard", 10.5, "Appartement");
+	agency.add_real_estate(rea1);
+	RealEstate* rea3 = new RealEstate("164 Camion", 30, "Terrain");
+	agency.add_real_estate(rea1);
+	RealEstate* rea4 = new RealEstate("222 Lac", 2000, "Maison");
+	agency.add_real_estate(rea1);
 
 	Client* client1 = new Client("Jean Dupont", "123 Rue Principale", "418-456-1234");
 	agency.add_client(client1);
@@ -31,39 +43,36 @@ int main()
 	Owner* owner2 = new Owner("Martin Pecheur", "2937 Avenue des Pins", "525-243-5452");
 	agency.add_owner(owner2);
 
-	owner1->add_ownership(&real_estate1);
+	owner1->add_ownership(rea1);
 
-	Contract* contract1 = new Contract(&real_estate1, "2024-07-01", "Vente", "Termes du contrat");
+	Contract* contract1 = new Contract(rea1, "2024-07-01", "Vente", "Termes du contrat");
 	client1->add_contract(contract1);
 	owner1->add_contract(contract1);
+
+	menu();
+}
+
+void menu() {
 	do
 	{
-		cout << "\n\n ===== MENU =====\n\n";
+		Itf::title("MENU");
 
-		cout
-			<< " [1] Ajouter une personne.\n"
-			<< " [2] Lister les personne.\n"
-			<< " [3] Ajouter un bien immobilier\n"
-			<< " [4] Lister les bien immobilier\n"
-			<< " [5] Créer un contrat\n"
-			<< " [6] Enregistrer une transaction\n"
-			<< " [0] Quitter\n";
+		vector<string> choices;
+		choices = {
+			"Ajouter une personne",
+			"Lister les personne",
+			"Ajouter un bien immobilier",
+			"Lister les bien immobilier",
+			"Créer un contrat",
+			"Enregistrer une transaction",
+			"Quitter",
+		};
+		Itf::choice_field(choices);
+		int choice = Itf::num_input(0, 6);
 
-		cout << "\nEntrez votre choix : ";
-
-		int choice;
-
-		while (!(cin >> choice) || choice < 0 || choice > 6) {
-			cout << "\nChoix invalide! Veuillez réessayer." << endl;
-			cout << "Entrez votre choix : ";
-
-			cin.clear();
-			cin.ignore(10000, '\n');
-		}
-
-		if (choice == 0) 
+		if (choice == 7)
 		{
-			cout << "\nAu revoir!\n";
+			Itf::title("Au revoir!");
 			break;
 		}
 
@@ -75,9 +84,17 @@ int main()
 		case 2:
 			agency.list_persons();
 			break;
-		case 3:
-			agency.create_real_estate();
+		case 3: 
+		{
+			RealEstate* rea = real_estate_creation();
+			if (rea == nullptr)
+			{
+				Itf::back();
+				continue;
+			}
+			agency.add_real_estate(rea);
 			break;
+		}
 		case 4:
 			agency.list_options();
 			break;
@@ -90,4 +107,53 @@ int main()
 		}
 
 	} while (true);
+}
+
+RealEstate* real_estate_creation() 
+{
+	Itf::space();
+
+	Itf::title("NOUVEAU BIEN IMMOBILIER");
+
+
+
+	Itf::subtitle("Informations");
+
+	Itf::text_field("Adresse");
+	string address = Itf::text_input(1, -1);
+
+	Itf::text_field("Surface");
+	double surface = Itf::num_input<double>(5, -1);
+
+	vector<string> choices;
+
+	choices =
+	{
+		"Appartement",
+		"Maison",
+		"Terrain"
+	};
+	Itf::choice_field("Type", choices);
+	string type = choices[Itf::num_input<int>(1, choices.size()) - 1];
+
+	cout << endl;
+
+	Itf::subtitle("Resume");
+	Itf::display_value("Adresse", address);
+	Itf::display_value("Surface", to_string(surface));
+	Itf::display_value("Type", type);
+
+	cout << endl;
+
+	choices =
+	{
+		"Sauvegarder",
+		"Annuler"
+	};
+	Itf::choice_field("Action", choices);
+	int action = Itf::num_input<int>(1, choices.size());
+
+	if (action == 2) return nullptr;
+
+	return new RealEstate(address, surface, type);
 }

@@ -2,7 +2,9 @@
 
 #include <string>
 #include <vector>
+
 #include "RealEstate.h"
+#include "Transaction.h"
 
 using namespace std;
 
@@ -15,6 +17,7 @@ private:
 	string type; // Location, Vente, etc.
 	string terms;
 	string status; // En attente, Signé
+	vector<Transaction*> transactions;
 
 	static int nextId;
 

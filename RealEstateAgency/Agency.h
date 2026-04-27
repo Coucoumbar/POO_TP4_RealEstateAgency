@@ -17,7 +17,7 @@ using namespace std;
 class Agency
 {
 private:
-	vector<RealEstate> real_estates;
+	vector<RealEstate*> real_estates;
 	vector<Client*> clients;
 	vector<Owner*> owners;
 	vector<Tenant*> tenants;
@@ -28,7 +28,7 @@ public:
 	Agency();
 	~Agency();
 
-	void add_real_estate(const RealEstate);
+	void add_real_estate(RealEstate*);
 	void create_real_estate();
 	void create_person();
 	void create_contract();
