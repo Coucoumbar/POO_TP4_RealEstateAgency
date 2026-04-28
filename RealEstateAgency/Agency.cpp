@@ -239,62 +239,52 @@ void Agency::add_owner(Owner* owner) {
 		owners.push_back(owner);
 }
 
-void Agency::list_options() {
-	cout << "\n\n ===== BIENS IMMOBILIERS =====\n\n";
-
-	for (int i = 1; i <= properties.size(); i++)
-	{
-		cout << "\n [" << i << "]";
-		properties[i - 1]->display();
-	}
-}
-
-void Agency::list_persons()
-{
-	cout << "\n\n ===== LISTE DES PERSONNES =====\n\n";
-
-	// Clients
-	cout << "--- Clients ---" << endl;
-	if (clients.empty()) {
-		cout << "Aucun client enregistre." << endl;
-	}
-	else {
-		for (size_t i = 0; i < clients.size(); ++i)
-		{
-			cout << "[" << (i + 1) << "] ";
-			clients[i]->display();
-			cout << endl;
-		}
-	}
-
-	// Propriétaires
-	cout << "\n--- Proprietaires ---" << endl;
-	if (owners.empty()) {
-		cout << "Aucun proprietaire enregistre." << endl;
-	}
-	else {
-		for (size_t i = 0; i < owners.size(); ++i)
-		{
-			cout << "[" << (i + 1) << "] ";
-			owners[i]->display();
-			cout << endl;
-		}
-	}
-
-	// Locataires
-	cout << "\n--- Locataires ---" << endl;
-	if (tenants.empty()) {
-		cout << "Aucun locataire enregistre." << endl;
-	}
-	else {
-		for (size_t i = 0; i < tenants.size(); ++i)
-		{
-			cout << "[" << (i + 1) << "] ";
-			tenants[i]->display();
-			cout << endl;
-		}
-	}
-}
+//void Agency::list_persons()
+//{
+//	cout << "\n\n ===== LISTE DES PERSONNES =====\n\n";
+//
+//	// Clients
+//	cout << "--- Clients ---" << endl;
+//	if (clients.empty()) {
+//		cout << "Aucun client enregistre." << endl;
+//	}
+//	else {
+//		for (size_t i = 0; i < clients.size(); ++i)
+//		{
+//			cout << "[" << (i + 1) << "] ";
+//			clients[i]->display();
+//			cout << endl;
+//		}
+//	}
+//
+//	// Propriétaires
+//	cout << "\n--- Proprietaires ---" << endl;
+//	if (owners.empty()) {
+//		cout << "Aucun proprietaire enregistre." << endl;
+//	}
+//	else {
+//		for (size_t i = 0; i < owners.size(); ++i)
+//		{
+//			cout << "[" << (i + 1) << "] ";
+//			owners[i]->display();
+//			cout << endl;
+//		}
+//	}
+//
+//	// Locataires
+//	cout << "\n--- Locataires ---" << endl;
+//	if (tenants.empty()) {
+//		cout << "Aucun locataire enregistre." << endl;
+//	}
+//	else {
+//		for (size_t i = 0; i < tenants.size(); ++i)
+//		{
+//			cout << "[" << (i + 1) << "] ";
+//			tenants[i]->display();
+//			cout << endl;
+//		}
+//	}
+//}
 
 void Agency::save_transaction() {
 
@@ -467,6 +457,17 @@ vector<Person*> Agency::filter_persons(const string& filter) {
 	vector<Person*> filtered;
 
 	for (Person* p : persons)
+	{
+		if (p->get_type() == filter) filtered.push_back(p);
+	}
+
+	return filtered;
+}
+
+vector<RealEstate*> Agency::filter_properties(const string& filter) {
+	vector<RealEstate*> filtered;
+
+	for (RealEstate* p : properties)
 	{
 		if (p->get_type() == filter) filtered.push_back(p);
 	}

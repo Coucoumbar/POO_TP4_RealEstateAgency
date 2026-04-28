@@ -14,14 +14,14 @@ void Tenant::add_contract(Contract* contract)
 void Tenant::display() const
 {
     Person::display();
-    cout << "  - Nombre de contrats : " << contracts.size() << endl;
+
+    cout << endl;
+
+    Itf::display_value("Nombre de contrats", to_string(contracts.size()));
+
     if (!contracts.empty())
     {
-        cout << "  - Détail des contrats :" << endl;
-        for (size_t i = 0; i < contracts.size(); ++i)
-        {
-            contracts[i]->display();
-        }
+        Itf::simple_list<Contract>(contracts);
     }
 }
 

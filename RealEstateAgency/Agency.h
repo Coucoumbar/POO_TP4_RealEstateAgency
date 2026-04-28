@@ -31,12 +31,14 @@ public:
 
 	void add_property(RealEstate*);
 	void add_person(Person*);
-	void create_contract();
+
+	vector<Person*> filter_persons(const string&);
+	vector<RealEstate*> filter_properties(const string&);
+
 	void add_client(Client*);
 	void add_owner(Owner*);
-	void list_options();
-	void list_persons();
-	vector<Person*> filter_persons(const string&);
+
+	void create_contract();
 	void save_transaction();
 	void sign_contract();
 };
