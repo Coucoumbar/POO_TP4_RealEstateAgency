@@ -94,7 +94,7 @@ public:
 	}
 
 	template <typename T>
-	static void detailed_list(vector<T*>& objects) {
+	static void detailed_list(const vector<T*>& objects) {
 		if (objects.empty()) 
 		{
 			error("Aucun item trouvé");

@@ -4,10 +4,16 @@
 #include <windows.h>
 
 #include "Agency.h"
+#include "Contract.h"
 #include "Interface.hpp"
+
 #include "Apartment.h"
 #include "House.h"
 #include "Land.h"
+
+#include "Client.h"
+#include "Tenant.h"
+#include "Owner.h"
 
 using namespace std;
 using Itf = Interface;
@@ -15,12 +21,17 @@ using Itf = Interface;
 Agency agency;
 
 void menu();
-RealEstate* property_creation();
+
+
 Person* person_creation();
 void person_list();
 Person* person_choice(const string&);
+
+RealEstate* property_creation();
 void property_list();
-RealEstate* property_choice(const string&);
+RealEstate* property_choice(const string&, const string&);
+
+Contract* contract_creation();
 
 
 int main()
@@ -122,9 +133,15 @@ void menu() {
 		case 4:
 			property_list();
 			break;
-		case 5:
-			agency.create_contract();
+		case 5: {
+			Contract* c = contract_creation();
+			if (c != nullptr)
+			{
+				agency.add_contract(c);
+				Itf::confirm("Contrat ajouté!");
+			}
 			break;
+		}
 		case 6:
 			agency.save_transaction();
 			break;
@@ -191,9 +208,11 @@ RealEstate* property_creation()
 	{
 	case 1:
 		return new Apartment(person, address, surface, types[type - 1]);
+	case 2:
+		return new House(address, surface, types[type - 1]);
+	case 3:
+		return new Land(address, surface, types[type - 1]);
 	}
-
-	return new RealEstate(address, surface, types[type - 1]);
 }
 
 Person* person_creation() 
@@ -323,20 +342,98 @@ void property_list() {
 	cout << endl;
 
 	Itf::subtitle(filters[filter - 1]);
-	vector<RealEstate*> filtered = agency.filter_properties(filters[filter - 1]);
+	vector<RealEstate*> filtered = agency.filter_properties(filters[filter - 1], "");
 	Itf::detailed_list<RealEstate>(filtered);
 }
 
-RealEstate* property_choice(const string& filter) {
+RealEstate* property_choice(const vector<RealEstate*>& available) {
 
-	Itf::subtitle("Choix du " + filter);
-	vector<RealEstate*> filtered = agency.filter_properties(filter);
-	Itf::detailed_list<RealEstate>(filtered);
+	Itf::subtitle("Choix de propriété");
+	Itf::detailed_list<RealEstate>(available);
 
 	cout << endl;
 
 	Itf::text_field("Choix");
-	int choice = Itf::num_input<int>(1, filtered.size());
+	int choice = Itf::num_input<int>(1, available.size());
 
-	return filtered[choice - 1];
+	return available[choice - 1];
+}
+
+
+
+Contract* contract_creation() {
+	Itf::space();
+	Itf::title("NOUVEAU CONTRAT");
+
+	vector<string> types = {
+		"Location",
+		"Vente",
+		"Annuler"
+	};
+	Itf::choice_field("Type de contrat", types);
+	int type = Itf::num_input<int>(1, types.size());
+
+	if (type == types.size()) {
+		Itf::back();
+		return nullptr;
+	}
+
+	if (!agency.has_person("Propriétaire"))
+	{
+		Itf::error("Aucun propriétaire enregistré. Operation annulée.");
+		Itf::back();
+		return nullptr;
+	}
+
+	cout << endl;
+
+	Owner* owner = dynamic_cast<Owner*>(person_choice("Propriétaire"));
+
+	vector<RealEstate*> available = agency.filter_properties(owner->get_owned(), "", "Non-vendu");
+
+	if (available.empty())
+	{
+		Itf::error("Aucune propriété enregistrée. Operation annulée.");
+		Itf::back();
+		return nullptr;
+	}
+
+	cout << endl;
+
+	RealEstate* property = property_choice(available);
+
+	if (type == 1) Itf::text_field("Prix du loyer");
+	else if (type == 2) Itf::text_field("Prix du bien");
+	double price = Itf::num_input<double>(0, -1);
+
+	Itf::text_field("Date (JJ-MM-AAAA)");
+	string date = Itf::text_input(10, 10);
+
+	Itf::text_field("Termes du contrat");
+	string terms = Itf::text_input(0, -1);
+
+	cout << endl;
+
+	Itf::subtitle("Résumé");
+	Itf::display_value("Type", types[type - 1]);
+	Itf::display_value("Propriété", property->get_address() + " (" + property->get_id() + ")");
+	Itf::display_value("Propriétaire", owner->get_name() + " (" + owner->get_id() + ")");
+	Itf::display_value("Prix", to_string(price));
+	Itf::display_value("Date", date);
+	Itf::display_value("Termes", terms);
+
+	cout << endl;
+
+	Itf::choice_field("Action", { "Sauvegarder", "Annuler" });
+	int action = Itf::num_input<int>(1, 2);
+
+	if (action == 2) { 
+		Itf::back();
+		return nullptr; 
+	}
+
+	Contract* c = new Contract(property, date, types[type - 1], terms, price, owner);
+	owner->add_contract(c);
+	
+	return  c;
 }

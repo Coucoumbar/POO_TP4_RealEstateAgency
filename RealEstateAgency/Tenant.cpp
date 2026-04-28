@@ -15,14 +15,14 @@ void Tenant::display() const
 {
     Person::display();
 
-    cout << endl;
-
     Itf::display_value("Nombre de contrats", to_string(contracts.size()));
 
     if (!contracts.empty())
     {
         Itf::simple_list<Contract>(contracts);
     }
+
+    cout << endl;
 }
 
 void Tenant::add_tenancy(RealEstate* property)

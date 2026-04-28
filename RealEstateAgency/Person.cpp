@@ -29,6 +29,8 @@ void Person::display() const
     Itf::display_value("Nom", name);
     Itf::display_value("Adresse", address);
     Itf::display_value("Téléphone", phone);
+
+    cout << endl;
 }
 
 // Getters

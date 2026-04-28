@@ -17,12 +17,12 @@ void Client::display() const
 {
     Person::display();
 
-    cout << endl;
-
     Itf::display_value("Nombre de contrats", to_string(contracts.size()));
 
     if (!contracts.empty())
     {
         Itf::simple_list<Contract>(contracts);
     }
+
+    cout << endl;
 }

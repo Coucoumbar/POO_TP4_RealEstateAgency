@@ -231,6 +231,10 @@ void Agency::add_person(Person* content) {
 	persons.push_back(content);
 }
 
+void Agency::add_contract(Contract* content) {
+	contracts.push_back(content);
+}
+
 void Agency::add_client(Client* client) {
 	clients.push_back(client);
 }
@@ -464,13 +468,57 @@ vector<Person*> Agency::filter_persons(const string& filter) {
 	return filtered;
 }
 
-vector<RealEstate*> Agency::filter_properties(const string& filter) {
+vector<RealEstate*> Agency::filter_properties(const string& filter, const string& status) {
 	vector<RealEstate*> filtered;
 
 	for (RealEstate* p : properties)
 	{
-		if (p->get_type() == filter) filtered.push_back(p);
+		if (
+			(p->get_type() == filter || filter.empty()) 
+			&& 
+			(p->get_status() == status || status.empty())) 
+			filtered.push_back(p);
 	}
 
 	return filtered;
+}
+vector<RealEstate*> Agency::filter_properties(const vector<RealEstate*>& values, const string& filter, const string& status) {
+	vector<RealEstate*> filtered;
+
+	for (RealEstate* p : values)
+	{
+		if (
+			(p->get_type() == filter || filter.empty())
+			&&
+			(p->get_status() == status || status.empty()))
+			filtered.push_back(p);
+	}
+
+	return filtered;
+}
+
+bool Agency::has_person(const string& filter) const {
+	for (Person* p : persons)
+	{
+		if (p->get_type() == filter) return true;
+	}
+
+	return false;
+}
+
+bool Agency::has_property(const string& filter, const string& status) const {
+	for (RealEstate* p : properties)
+	{
+		if (
+			(p->get_type() == filter || filter.empty())
+			&&
+			(p->get_status() == status || status.empty())) 
+			return true;
+	}
+
+	return false;
+}
+
+bool Agency::has_contract() const {
+	return contracts.size() > 0;
 }

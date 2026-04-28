@@ -30,8 +30,6 @@ void Owner::display() const
 {
     Person::display();
 
-    cout << endl;
-
     Itf::display_value("Nombre de propriétés", to_string(owned.size()));
     Itf::display_value("Nombre de contrats", to_string(contracts.size()));
 
@@ -39,6 +37,8 @@ void Owner::display() const
     {
         Itf::simple_list<Contract>(contracts);
     }
+
+    cout << endl;
 }
 
 vector<RealEstate*> Owner::get_owned() const {
