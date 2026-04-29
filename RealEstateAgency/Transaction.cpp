@@ -52,6 +52,7 @@ void Transaction::process(Agency& a) {
 		}
 
 		rea->change_tenant(target);
+		rea->update_status("En location");
 		target->add_tenancy(rea);
 		target->add_contract(contract);
 	}
@@ -83,6 +84,7 @@ void Transaction::process(Agency& a) {
 		}
 
 		contract->get_owner()->remove_ownership(rea);
+		rea->update_status("Vendu");
 		target->add_ownership(rea);
 		target->add_contract(contract);
 

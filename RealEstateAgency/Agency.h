@@ -40,7 +40,6 @@ public:
 	bool has_contract(const string&, const string&) const;
 
 	void save_transaction(Transaction*);
-	void sign_contract();
 
 	vector<Contract*> get_contracts() const;
 };
