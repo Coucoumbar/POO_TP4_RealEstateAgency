@@ -45,19 +45,17 @@ public:
 			error("Entrez une valeur valide : ");
 		}
 
-		cin.ignore(INT_MAX, '\n');
-
 		return value;
 	}
 
 	//Display a section title.
 	static void title(const string& text) {
-		cout << " ===== " << text << " =====";
+		cout << "\033[96m" << " ===== " << text << " =====" << "\033[0m";
 		space();
 	}
 
 	static void subtitle(const string& text) {
-		cout << " --- " << text << " ---" << endl;
+		cout << "\033[94m" << " --- " << text << " ---" << "\033[0m" << endl;
 	}
 
 	static void display_value(const string& name, const string& value) {
@@ -135,7 +133,7 @@ public:
 	}
 
 	static void back() {
-		cout << endl << "\033[94m" << " < " << "Retour" << "\033[0m" << endl;
+		cout << endl << "\033[93m" << " < " << "Retour" << "\033[0m" << endl;
 	}
 
 

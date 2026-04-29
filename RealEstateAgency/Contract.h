@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "Interface.hpp"
+
 // forward declaration tu avoid circular dependencies
 class RealEstate;
 class Person;
@@ -11,6 +13,8 @@ class Owner;
 class Transaction;
 
 using namespace std;
+
+using Itf = Interface;
 
 class Contract
 {

@@ -16,5 +16,7 @@ void Apartment::change_tenant(Tenant* tenant) {
 }
 
 void Apartment::display() const {
+	RealEstate::display();
 
+	Itf::display_value("Loacataire", (!tenant ? "Aucun" : tenant->get_name()));
 }

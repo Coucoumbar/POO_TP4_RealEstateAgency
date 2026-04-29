@@ -1,7 +1,9 @@
 ﻿#include "Contract.h"
-#include "RealEstate.h"
+
 #include <iostream>
 #include <stdexcept>
+
+#include "RealEstate.h"
 
 int Contract::nextId = 0;
 
@@ -30,14 +32,14 @@ void Contract::sign()
 }
 
 void Contract::display() const {
-    cout << "  ~~ Contrat " << id << " ~~" << endl;
-    cout << "    - Type   : " << type << endl;
-    cout << "    - Date   : " << date << endl;
-    cout << "    - Termes : " << terms << endl;
-    cout << "    - Statut : " << status << endl;
-    cout << "    - Bien   : " << property->get_id() << endl;
-    cout << "    - Prix   : " << price << "$" << endl;  
-    cout << "  ~~~~~~~~~~~~~~~~~~~~~" << endl;
+    Itf::subtitle("Contrat " + id);
+
+    Itf::display_value("Type", type);
+    Itf::display_value("Date", date);
+    Itf::display_value("Termes", terms);
+    Itf::display_value("Statut", status);
+    Itf::display_value("Propriété", property->get_id());
+    Itf::display_value("Prix", to_string(price) + "$");
 }
 
 string Contract::get_id() const {
