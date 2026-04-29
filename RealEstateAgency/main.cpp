@@ -410,11 +410,19 @@ Contract* contract_creation() {
 
 	Owner* owner = dynamic_cast<Owner*>(person_choice("Propriétaire"));
 
-	vector<RealEstate*> available = agency.filter_properties(owner->get_owned(), "", "Non-vendu");
+	vector<RealEstate*> available;
+	if (type == 1)
+	{
+		available = agency.filter_properties(owner->get_owned(), "Appartement", "Non-vendu");
+	}
+	else
+	{
+		available = agency.filter_properties(owner->get_owned(), "", "Non-vendu");
+	}
 
 	if (available.empty())
 	{
-		Itf::error("Aucune propriété enregistrée. Operation annulée.");
+		Itf::error("Aucune propriété de " + types[type - 1] + " enregistrée. Opération annulée.");
 		Itf::back();
 		return nullptr;
 	}
