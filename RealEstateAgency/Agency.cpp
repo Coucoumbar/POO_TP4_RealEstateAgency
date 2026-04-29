@@ -314,7 +314,7 @@ void Agency::sign_contract() {
 		cout << " [" << (i + 1) << "] Contrat " << c->get_id()
 			<< " | Type: " << c->get_type()
 			<< " | Bien: " << c->get_property()->get_address()
-			<< " | Proprietaire: " << (c->get_owner() ? c->get_owner()->get_name() : "Inconnu")
+			<< " | Propriétaire: " << (c->get_owner() ? c->get_owner()->get_name() : "Inconnu")
 			<< " | Prix: " << c->get_price() << "$"
 			<< " | Date: " << c->get_date() << endl;
 	}
@@ -330,7 +330,7 @@ void Agency::sign_contract() {
 
 	// Select a client to sign the contract
 	if (clients.empty()) {
-		cout << " Aucun client enregistre. Operation annulee.\n";
+		cout << " Aucun client enregistré. Operation annulée.\n";
 		return;
 	}
 	cout << "\n Clients disponibles :\n";
@@ -356,7 +356,7 @@ void Agency::sign_contract() {
 	string owner_name_input;
 	getline(cin, owner_name_input);
 	if (owner_name_input != current_owner->get_name()) {
-		cout << " Nom incorrect. Signature annulee.\n";
+		cout << " Nom incorrect. Signature annulée.\n";
 		return;
 	}
 
@@ -443,17 +443,17 @@ void Agency::sign_contract() {
 	try {
 		new_transaction = new Transaction(price, selected_contract->get_date(), trans_type, selected_contract);
 		transactions.push_back(new_transaction);
-		cout << " Transaction " << new_transaction->get_id() << " enregistree.\n";
+		cout << " Transaction " << new_transaction->get_id() << " enregistrée.\n";
 	}
 	catch (const exception& e) {
 		cout << " Erreur lors de l'enregistrement de la transaction : " << e.what() << endl;
 		delete new_transaction;
 	}
 
-	cout << "\n Contrat " << selected_contract->get_id() << " signe avec succes.\n";
-	cout << " Bien " << property->get_address() << " : " << property->get_status() << ".\n";
+	cout << "\n Contrat " << selected_contract->get_id() << " signé avec succes.\n";
+	cout << property->get_address() << " est maintenant " << property->get_status() << ".\n";
 	if (contract_type == "Vente") {
-		cout << " " << selected_client->get_name() << " devient proprietaire.\n";
+		cout << " " << selected_client->get_name() << " devient propriétaire.\n";
 	}
 }
 
@@ -521,4 +521,8 @@ bool Agency::has_property(const string& filter, const string& status) const {
 
 bool Agency::has_contract() const {
 	return contracts.size() > 0;
+}
+
+vector<Contract*> Agency::get_contracts() const {
+	return contracts;
 }

@@ -47,5 +47,7 @@ public:
 	void create_contract();
 	void save_transaction();
 	void sign_contract();
+
+	vector<Contract*> get_contracts() const;
 };
 

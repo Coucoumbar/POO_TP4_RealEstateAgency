@@ -32,6 +32,8 @@ void property_list();
 RealEstate* property_choice(const string&, const string&);
 
 Contract* contract_creation();
+void contract_list();
+void sign_contract();
 
 
 int main()
@@ -69,9 +71,10 @@ int main()
 
 	owner1->add_ownership(rea1);
 
-	Contract* contract1 = new Contract(rea1, "2024-07-01", "Vente", "Termes du contrat", 100000);
+	Contract* contract1 = new Contract(rea1, "2024-07-01", "Vente", "Termes du contrat", 100000, owner1);
 	client1->add_contract(contract1);
 	owner1->add_contract(contract1);
+	agency.add_contract(contract1);
 
 	menu();
 }
@@ -89,13 +92,15 @@ void menu() {
 			"Ajouter un bien immobilier",
 			"Lister les bien immobilier",
 			"Créer un contrat",
+			"Lister les contrats",
+			"Signer un contrat",
 			"Enregistrer une transaction",
 			"Quitter",
 		};
 		Itf::choice_field(choices);
 		int choice = Itf::num_input<int>(0, choices.size());
 
-		if (choice == 7)
+		if (choice == 9)
 		{
 			Itf::space();
 			Itf::confirm("Au revoir!");
@@ -143,6 +148,12 @@ void menu() {
 			break;
 		}
 		case 6:
+			contract_list();
+			break;
+		case 7:
+			sign_contract();
+			break;
+		case 8:
 			agency.save_transaction();
 			break;
 		}
@@ -436,4 +447,17 @@ Contract* contract_creation() {
 	owner->add_contract(c);
 	
 	return  c;
+}
+
+void contract_list(){
+	Itf::space();
+	Itf::title("LISTE DES CONTRATS");
+
+	vector<Contract*> contracts = agency.get_contracts();
+
+	Itf::detailed_list<Contract>(contracts);
+}
+
+void sign_contract() {
+	agency.sign_contract();
 }

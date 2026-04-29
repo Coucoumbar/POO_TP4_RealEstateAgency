@@ -82,6 +82,7 @@ public:
 
 		text_field("Choix");
 	}
+
 	static void choice_field(const vector<string>& choices) {
 		for (size_t i = 1; i <= choices.size(); i++)
 		{
