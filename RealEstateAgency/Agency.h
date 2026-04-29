@@ -45,7 +45,7 @@ public:
 	void add_owner(Owner*);
 
 	void create_contract();
-	void save_transaction();
+	void save_transaction(Transaction*);
 	void sign_contract();
 
 	vector<Contract*> get_contracts() const;

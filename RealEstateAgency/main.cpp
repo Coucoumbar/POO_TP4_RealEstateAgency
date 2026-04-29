@@ -94,13 +94,12 @@ void menu() {
 			"Créer un contrat",
 			"Lister les contrats",
 			"Signer un contrat",
-			"Enregistrer une transaction",
 			"Quitter",
 		};
 		Itf::choice_field(choices);
 		int choice = Itf::num_input<int>(0, choices.size());
 
-		if (choice == 9)
+		if (choice == 8)
 		{
 			Itf::space();
 			Itf::confirm("Au revoir!");
@@ -152,9 +151,6 @@ void menu() {
 			break;
 		case 7:
 			sign_contract();
-			break;
-		case 8:
-			agency.save_transaction();
 			break;
 		}
 

@@ -290,10 +290,6 @@ void Agency::add_owner(Owner* owner) {
 //	}
 //}
 
-void Agency::save_transaction() {
-
-}
-
 void Agency::sign_contract() {
 	cout << "\n\n ===== SIGNATURE DE CONTRAT =====\n\n";
 
@@ -436,24 +432,32 @@ void Agency::sign_contract() {
 	selected_contract->set_client(selected_client);
 	selected_client->add_contract(selected_contract);
 
+	cout << "\n Contrat " << selected_contract->get_id() << " signé avec succes.\n";
+
 	// Create new transaction for this contract
 	double price = selected_contract->get_price();
-	string trans_type = (contract_type == "Location") ? "Loyer" : "Vente";
+	string transaction_type = (contract_type == "Location") ? "Loyer" : "Vente";
 	Transaction* new_transaction = nullptr;
+
+	new_transaction = new Transaction(price, selected_contract->get_date(), transaction_type, selected_contract);
+	cout << "\n";
+	new_transaction->process();
+	save_transaction(new_transaction);
+
+	cout << "\n " << property->get_id() << " est maintenant " << property->get_status() << ".\n";
+	if (contract_type == "Vente") {
+		cout << " " << selected_client->get_name() << " devient propriétaire.\n";
+	}
+}
+
+void Agency::save_transaction(Transaction* new_transaction) {
 	try {
-		new_transaction = new Transaction(price, selected_contract->get_date(), trans_type, selected_contract);
 		transactions.push_back(new_transaction);
 		cout << " Transaction " << new_transaction->get_id() << " enregistrée.\n";
 	}
 	catch (const exception& e) {
 		cout << " Erreur lors de l'enregistrement de la transaction : " << e.what() << endl;
 		delete new_transaction;
-	}
-
-	cout << "\n Contrat " << selected_contract->get_id() << " signé avec succes.\n";
-	cout << property->get_address() << " est maintenant " << property->get_status() << ".\n";
-	if (contract_type == "Vente") {
-		cout << " " << selected_client->get_name() << " devient propriétaire.\n";
 	}
 }
 

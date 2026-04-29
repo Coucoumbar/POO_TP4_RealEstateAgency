@@ -17,6 +17,7 @@ private:
 	string date;
 	string type; // "Loyer", "Commission"
 	Contract* contract;
+	bool processed = false;
 
 public:
 	Transaction(double price, const string& date, const string& type, Contract* contract);
