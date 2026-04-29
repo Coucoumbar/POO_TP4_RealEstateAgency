@@ -153,6 +153,7 @@ void menu() {
 				tra->process(agency);
 				if (tra->is_processed())
 				{
+					agency.save_transaction(tra);
 					Itf::confirm("Transaction complétée!");
 				}
 			}
