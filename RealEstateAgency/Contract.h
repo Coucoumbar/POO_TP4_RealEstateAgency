@@ -5,6 +5,7 @@
 
 #include "RealEstate.h"
 #include "Transaction.h"
+#include "Person.h"
 
 // forward declaration tu avoid circular dependencies
 class Client;
@@ -17,7 +18,7 @@ class Contract
 private:
 	const string id;
 	RealEstate* property;
-	Client* client;
+	Person* client;
 	Owner* owner;
 	string date;
 	string type; // Location, Vente, etc.
@@ -41,8 +42,8 @@ public:
 	double get_price() const;
 	RealEstate* get_property() const;
 	Owner* get_owner() const;
-	Client* get_client() const;
+	Person* get_client() const;
 	void set_owner(Owner* new_owner);
-	void set_client(Client* new_client);
+	void set_client(Person* new_client);
 };
 

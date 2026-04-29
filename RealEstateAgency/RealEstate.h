@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 
+#include "Person.h"
+#include "Owner.h"
+
 #include "Interface.hpp"
 
 using namespace std;
@@ -18,9 +21,11 @@ protected:
 	double surface;
 	string type;
 	string status;
+	Owner* owner;
+
 
 public:
-	RealEstate(const string&, double, const string&);
+	RealEstate(Owner*&, const string&, double, const string&);
 	
 	virtual void display() const;
 	void update_status(const string&);

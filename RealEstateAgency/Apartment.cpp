@@ -1,13 +1,16 @@
 ﻿#include "Apartment.h"
 
 Apartment::Apartment(
-	Person* owner, 
+	Owner*& owner, 
 	const string& address, 
 	double surface, 
 	const string& type
 ) : 
-	RealEstate(address, surface, type),
-	owner(owner)
+	RealEstate(owner, address, surface, type)
 {
-	dynamic_cast<Owner*>(owner)->add_ownership(this);
+	
+}
+
+void Apartment::change_tenant(Tenant* tenant) {
+	this->tenant = tenant;
 }

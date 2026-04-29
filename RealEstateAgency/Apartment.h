@@ -1,14 +1,17 @@
 ﻿#pragma once
 
 #include "RealEstate.h"
-#include "Owner.h"
+#include "Tenant.h"
 
 class Apartment : public RealEstate
 {
 private:
-	Person* owner;
-
+	Tenant* tenant = nullptr;
 public:
-	Apartment(Person*, const string&, double, const string&);
+	Apartment(Owner*&, const string&, double, const string&);
+
+	void display() const override;
+
+	void change_tenant(Tenant*);
 };
 

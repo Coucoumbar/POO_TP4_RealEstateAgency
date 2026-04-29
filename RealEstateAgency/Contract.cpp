@@ -63,7 +63,7 @@ double Contract::get_price() const {
     return price;
 }
 
-Client* Contract::get_client() const {
+Person* Contract::get_client() const {
     return client;
 }
 
@@ -75,6 +75,6 @@ void Contract::set_owner(Owner* new_owner) {
     owner = new_owner;
 }
 
-void Contract::set_client(Client* new_client) {
+void Contract::set_client(Person* new_client) {
     client = new_client;
 }

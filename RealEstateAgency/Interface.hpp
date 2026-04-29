@@ -38,7 +38,7 @@ public:
 
 		if (max < 0) max = INT_MAX;
 
-		while (!(cin >> value) || value.size() < min || value.size() > max)
+		while (!getline(cin, value) || value.empty())
 		{
 			cin.clear();
 			cin.ignore(INT_MAX, '\n');

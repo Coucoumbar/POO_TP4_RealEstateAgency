@@ -6,6 +6,7 @@
 #include "Agency.h"
 #include "Contract.h"
 #include "Interface.hpp"
+#include "Transaction.h"
 
 #include "Apartment.h"
 #include "House.h"
@@ -33,7 +34,8 @@ RealEstate* property_choice(const string&, const string&);
 
 Contract* contract_creation();
 void contract_list();
-void sign_contract();
+Contract* contract_choice(const vector<Contract*>&);
+Contract* contract_sign();
 
 
 int main()
@@ -44,29 +46,25 @@ int main()
 	// Initial Data
 
 	Client* client1 = new Client("Jean Dupont", "123 Rue Principale", "418-456-1234");
-	agency.add_client(client1);
 	agency.add_person(client1);
 	Client* client2 = new Client("Yvon Tremblay", "43 Rue Secondaire", "654-623-6483");
-	agency.add_client(client2);
 	agency.add_person(client2);
 
 	Owner* owner1 = new Owner("Alice Martin", "789 Boulevard des Fleurs", "555-123-4567");
-	agency.add_owner(owner1);
 	agency.add_person(owner1);
 	Owner* owner2 = new Owner("Martin Pecheur", "2937 Avenue des Pins", "525-243-5452");
-	agency.add_owner(owner2);
 	agency.add_person(owner2);
 
 	Tenant* tenant1 = new Tenant("Martin Pecheur", "2937 Avenue des Pins", "525-243-5452");
 	agency.add_person(tenant1);
 
-	House* rea1 = new House("693 Rabelais", 200, "Maison");
+	House* rea1 = new House(owner2, "693 Rabelais", 200, "Maison");
 	agency.add_property(rea1);
 	Apartment* rea2 = new Apartment(owner1, "201 Bernard", 10.5, "Appartement");
 	agency.add_property(rea2);
-	Land* rea3 = new Land("164 Camion", 30, "Terrain");
+	Land* rea3 = new Land(owner2, "164 Camion", 30, "Terrain");
 	agency.add_property(rea3);
-	House* rea4 = new House("222 Lac", 2000, "Maison");
+	House* rea4 = new House(owner1, "222 Lac", 2000, "Maison");
 	agency.add_property(rea4);
 
 	owner1->add_ownership(rea1);
@@ -99,7 +97,7 @@ void menu() {
 		Itf::choice_field(choices);
 		int choice = Itf::num_input<int>(0, choices.size());
 
-		if (choice == 8)
+		if (choice == choices.size())
 		{
 			Itf::space();
 			Itf::confirm("Au revoir!");
@@ -111,37 +109,34 @@ void menu() {
 		case 1:
 		{
 			Person* per = person_creation();
-			if (per == nullptr)
+			if (per != nullptr)
 			{
-				Itf::back();
-				continue;
+				agency.add_person(per);
+				Itf::confirm("Personne ajouté!");
 			}
-			agency.add_person(per);
 			break;
 		}
 		case 2:
 			person_list();
 			break;
-		case 3: 
+		case 3:
 		{
 			RealEstate* rea = property_creation();
-			if (rea == nullptr)
+			if (rea != nullptr)
 			{
-				Itf::back();
-				continue;
+				agency.add_property(rea);
+				Itf::confirm("Propriété ajouté!");
 			}
-			agency.add_property(rea);
-			Itf::confirm("Propriété ajouté!");
 			break;
 		}
 		case 4:
 			property_list();
 			break;
 		case 5: {
-			Contract* c = contract_creation();
-			if (c != nullptr)
+			Contract* con = contract_creation();
+			if (con != nullptr)
 			{
-				agency.add_contract(c);
+				agency.add_contract(con);
 				Itf::confirm("Contrat ajouté!");
 			}
 			break;
@@ -150,8 +145,19 @@ void menu() {
 			contract_list();
 			break;
 		case 7:
-			sign_contract();
+		{
+			Contract* con = contract_sign();
+			if (con != nullptr)
+			{
+				Transaction* tra = new Transaction(con);
+				tra->process(agency);
+				if (tra->is_processed())
+				{
+					Itf::confirm("Transaction complétée!");
+				}
+			}
 			break;
+		}
 		}
 
 	} while (true);
@@ -175,17 +181,23 @@ RealEstate* property_creation()
 	Itf::choice_field("Type", types);
 	int type = Itf::num_input<int>(1, types.size());
 
-	if (type == types.size()) return nullptr;
+	if (type == types.size()) {
+		Itf::back();
+		return nullptr;
+	}
 
 	cout << endl;
 
 	Itf::subtitle("Informations");
 
-	Person* person = nullptr;
-	if (types[type - 1] == "Appartement")
+	if (!agency.has_person("Propriétaire"))
 	{
-		person = person_choice("Propriétaire");
+		Itf::error("Aucun propriétaire enregistré. Operation annulée.");
+		Itf::back();
+		return nullptr;
 	}
+
+	Owner* owner = dynamic_cast<Owner*>(person_choice("Propriétaire"));
 
 	Itf::text_field("Adresse");
 	string address = Itf::text_input(1, -1);
@@ -196,10 +208,7 @@ RealEstate* property_creation()
 	cout << endl;
 
 	Itf::subtitle("Resume");
-	if (person != nullptr)
-	{
-		Itf::display_value("Propriétaire", person->get_name());
-	}
+	Itf::display_value("Propriétaire", owner->get_name());
 	Itf::display_value("Adresse", address);
 	Itf::display_value("Surface", to_string(surface));
 	Itf::display_value("Type", types[type - 1]);
@@ -209,18 +218,63 @@ RealEstate* property_creation()
 	Itf::choice_field("Action", {"Sauvegarder", "Annuler"});
 	int action = Itf::num_input<int>(1, 2);
 
-	if (action == 2) return nullptr;
+	if (action == 2) {
+		Itf::back();
+		return nullptr;
+	}
 
 	switch (type)
 	{
 	case 1:
-		return new Apartment(person, address, surface, types[type - 1]);
+		return new Apartment(owner, address, surface, types[type - 1]);
 	case 2:
-		return new House(address, surface, types[type - 1]);
+		return new House(owner, address, surface, types[type - 1]);
 	case 3:
-		return new Land(address, surface, types[type - 1]);
+		return new Land(owner, address, surface, types[type - 1]);
 	}
 }
+
+void property_list() {
+	Itf::space();
+	Itf::title("LISTE DES PROPRIÉTÉS");
+
+	vector<string> filters = {
+		"Appartement",
+		"Maison",
+		"Terrain",
+		"Annuler"
+	};
+
+	Itf::choice_field("Filtre", filters);
+	int filter = Itf::num_input<int>(1, filters.size());
+
+	if (filter == filters.size())
+	{
+		Itf::back();
+		return;
+	}
+
+	cout << endl;
+
+	Itf::subtitle(filters[filter - 1]);
+	vector<RealEstate*> filtered = agency.filter_properties(filters[filter - 1], "");
+	Itf::detailed_list<RealEstate>(filtered);
+}
+
+RealEstate* property_choice(const vector<RealEstate*>& available) {
+
+	Itf::subtitle("Choix de propriété");
+	Itf::detailed_list<RealEstate>(available);
+
+	cout << endl;
+
+	Itf::text_field("Choix");
+	int choice = Itf::num_input<int>(1, available.size());
+
+	return available[choice - 1];
+}
+
+
 
 Person* person_creation() 
 {
@@ -326,46 +380,6 @@ Person* person_choice(const string& filter) {
 	return filtered[choice - 1];
 }
 
-void property_list() {
-	Itf::space();
-	Itf::title("LISTE DES PROPRIÉTÉS");
-
-	vector<string> filters = {
-		"Appartement",
-		"Maison",
-		"Terrain",
-		"Annuler"
-	};
-
-	Itf::choice_field("Filtre", filters);
-	int filter = Itf::num_input<int>(1, filters.size());
-
-	if (filter == filters.size())
-	{
-		Itf::back();
-		return;
-	}
-
-	cout << endl;
-
-	Itf::subtitle(filters[filter - 1]);
-	vector<RealEstate*> filtered = agency.filter_properties(filters[filter - 1], "");
-	Itf::detailed_list<RealEstate>(filtered);
-}
-
-RealEstate* property_choice(const vector<RealEstate*>& available) {
-
-	Itf::subtitle("Choix de propriété");
-	Itf::detailed_list<RealEstate>(available);
-
-	cout << endl;
-
-	Itf::text_field("Choix");
-	int choice = Itf::num_input<int>(1, available.size());
-
-	return available[choice - 1];
-}
-
 
 
 Contract* contract_creation() {
@@ -454,6 +468,84 @@ void contract_list(){
 	Itf::detailed_list<Contract>(contracts);
 }
 
-void sign_contract() {
-	agency.sign_contract();
+Contract* contract_choice(const vector<Contract*>& available) {
+	Itf::subtitle("Choix de contrat");
+	Itf::detailed_list<Contract>(available);
+
+	cout << endl;
+
+	Itf::text_field("Choix");
+	int choice = Itf::num_input<int>(1, available.size());
+
+	return available[choice - 1];
+}
+
+Contract* contract_sign() {
+	Itf::space();
+	Itf::title("SIGNATURE DE CONTRAT");
+
+	if (!agency.has_contract("", "En attente"))
+	{
+		Itf::error("Aucun contrat en attente. Operation annulée.");
+		Itf::back();
+		return nullptr;
+	}
+
+	vector<Contract*> pending = agency.filter_contracts("", "En attente");
+	Contract* contract = contract_choice(pending);
+	pending.clear();
+
+	Person* person;
+
+	if (contract->get_type() == "Location")
+	{
+		if (!agency.has_person("Locataire"))
+		{
+			Itf::error("Aucun locataire enregistré. Operation annulée.");
+			Itf::back();
+			return nullptr;
+		}
+
+		person = person_choice("Locataire");
+	}
+	else
+	{
+		if (!agency.has_person("Client"))
+		{
+			Itf::error("Aucun client enregistré. Operation annulée.");
+			Itf::back();
+			return nullptr;
+		}
+
+		person = person_choice("Client");
+	}
+
+	string owner = contract->get_owner()->get_name();
+
+	Itf::display_value("Propriétaire du contrat", owner);
+	Itf::text_field("Réécrire le nom pour confirmer");
+	if (Itf::text_input(1, -1) != owner)
+	{
+		Itf::error("Nom incorrect. Operation annulée.");
+		Itf::back();
+		return nullptr;
+	}
+
+	try
+	{
+		contract->sign();
+	}
+	catch (const std::exception& e)
+	{
+		Itf::error(e.what());
+		Itf::back();
+		return nullptr;
+	}
+
+	contract->set_client(person);
+	person->add_contract(contract);
+
+	Itf::confirm("Contrat signé!");
+
+	return contract;
 }

@@ -21,6 +21,9 @@ Person::Person(
 // Destructor
 Person::~Person() {}
 
+void Person::add_contract(Contract*& contract) {
+    contracts.push_back(contract);
+}
 
 void Person::display() const
 {

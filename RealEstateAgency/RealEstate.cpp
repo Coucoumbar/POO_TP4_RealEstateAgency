@@ -3,6 +3,7 @@
 int RealEstate::current_id = 0;
 
 RealEstate::RealEstate(
+	Owner*& owner,
 	const string& address,
 	double surface,
 	const string& type
@@ -10,9 +11,11 @@ RealEstate::RealEstate(
 	id("REA-" + to_string(++current_id)),
 	address(address),
 	surface(surface),
-	type(type),
+	type(type), 
 	status("Non-vendu")
-{}
+{
+	owner->add_ownership(this);
+}
 
 void RealEstate::display() const {
 	Itf::subtitle(id);

@@ -19,9 +19,6 @@ class Agency
 private:
 	vector<RealEstate*> properties;
 	vector<Person*> persons;
-	vector<Client*> clients;
-	vector<Owner*> owners;
-	vector<Tenant*> tenants;
 	vector<Contract*> contracts;
 	vector<Transaction*> transactions;
 
@@ -36,15 +33,12 @@ public:
 	vector<Person*> filter_persons(const string&);
 	vector<RealEstate*> filter_properties(const string&, const string&);
 	vector<RealEstate*> filter_properties(const vector<RealEstate*>&, const string&, const string&);
+	vector<Contract*> filter_contracts(const string&, const string&);
 
 	bool has_person(const string&) const;
 	bool has_property(const string&, const string&) const;
-	bool has_contract() const;
+	bool has_contract(const string&, const string&) const;
 
-	void add_client(Client*);
-	void add_owner(Owner*);
-
-	void create_contract();
 	void save_transaction(Transaction*);
 	void sign_contract();
 

@@ -1,11 +1,12 @@
 ﻿#include "Land.h"
 
 Land::Land(
+	Owner*& owner,
 	const string& address,
 	double surface,
 	const string& type
 ) :
-	RealEstate(address, surface, type)
+	RealEstate(owner, address, surface, type)
 {
-
+	
 }

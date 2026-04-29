@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include <string>
+#include <vector>
 
 #include "Interface.hpp"
+#include "Contract.h"
 
 using namespace std;
 using Itf = Interface;
@@ -15,6 +17,7 @@ protected:
 	string address;
 	string phone;
 	string type;
+	vector<Contract*> contracts;
 
 	static int nextId;
 public:
@@ -22,6 +25,8 @@ public:
 	virtual ~Person();
 
 	virtual void display() const;
+
+	void add_contract(Contract*&);
 
 	string get_id() const;
 	string get_name() const;

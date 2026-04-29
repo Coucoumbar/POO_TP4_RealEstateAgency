@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include "Contract.h";
+#include "Agency.h";
+
 class Contract;
 
 using namespace std;
@@ -20,11 +23,13 @@ private:
 	bool processed = false;
 
 public:
-	Transaction(double price, const string& date, const string& type, Contract* contract);
+	Transaction(Contract* contract);
 
-	void process();
+	void process(Agency&);
 	void display() const;
+
 	string get_id() const;
+	bool is_processed() const;
 
 };
 

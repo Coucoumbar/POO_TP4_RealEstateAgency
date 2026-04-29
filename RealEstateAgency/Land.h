@@ -5,6 +5,8 @@
 class Land : public RealEstate
 {
 public:
-	Land(const string& address, double surface, const string& type);
+	Land(Owner*& owner, const string& address, double surface, const string& type);
+
+	void display() const override;
 };
 
