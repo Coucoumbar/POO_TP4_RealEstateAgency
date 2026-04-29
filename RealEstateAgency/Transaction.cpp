@@ -18,6 +18,7 @@ Transaction::Transaction(Contract* contract) :
 	
 }
 
+//Process the switch of state in a sold or rented property
 void Transaction::process(Agency& a) {
 	if (contract->get_status() != "Signé")
 		throw runtime_error("Transaction impossible : le contrat n'est pas signé.");

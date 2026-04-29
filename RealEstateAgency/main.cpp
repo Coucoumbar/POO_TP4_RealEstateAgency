@@ -77,6 +77,7 @@ int main()
 	menu();
 }
 
+//Main menu of the application
 void menu() {
 	do
 	{
@@ -163,6 +164,11 @@ void menu() {
 	} while (true);
 }
 
+
+
+//[PROPERTIES]
+
+//Menu for the addition of a new property
 RealEstate* property_creation() 
 {
 	Itf::space();
@@ -234,6 +240,7 @@ RealEstate* property_creation()
 	}
 }
 
+//Displays the different properties in the application
 void property_list() {
 	Itf::space();
 	Itf::title("LISTE DES PROPRIÉTÉS");
@@ -261,6 +268,7 @@ void property_list() {
 	Itf::detailed_list<RealEstate>(filtered);
 }
 
+//Menu for the selection of a property
 RealEstate* property_choice(const vector<RealEstate*>& available) {
 
 	Itf::subtitle("Choix de propriété");
@@ -276,6 +284,9 @@ RealEstate* property_choice(const vector<RealEstate*>& available) {
 
 
 
+//[PERSONS]
+
+//Menu for the addition of a new person
 Person* person_creation() 
 {
 	Itf::space();
@@ -339,6 +350,7 @@ Person* person_creation()
 	}
 }
 
+//Displays the different persons in the application
 void person_list() {
 	Itf::space();
 	Itf::title("LISTE DES PERSONNES");
@@ -366,6 +378,7 @@ void person_list() {
 	Itf::detailed_list<Person>(filtered);
 }
 
+//Menu for the selection of a person
 Person* person_choice(const string& filter) {
 
 	Itf::subtitle("Choix du " + filter);
@@ -382,6 +395,9 @@ Person* person_choice(const string& filter) {
 
 
 
+//[CONTRACTS]
+
+//Menu for the addition of a new contract
 Contract* contract_creation() {
 	Itf::space();
 	Itf::title("NOUVEAU CONTRAT");
@@ -467,6 +483,7 @@ Contract* contract_creation() {
 	return  c;
 }
 
+//Displays the different contracts in the application
 void contract_list(){
 	Itf::space();
 	Itf::title("LISTE DES CONTRATS");
@@ -476,6 +493,7 @@ void contract_list(){
 	Itf::detailed_list<Contract>(contracts);
 }
 
+//Menu for the selection of a contract
 Contract* contract_choice(const vector<Contract*>& available) {
 	Itf::subtitle("Choix de contrat");
 	Itf::detailed_list<Contract>(available);
@@ -488,6 +506,7 @@ Contract* contract_choice(const vector<Contract*>& available) {
 	return available[choice - 1];
 }
 
+////Menu for the signature of a contract
 Contract* contract_sign() {
 	Itf::space();
 	Itf::title("SIGNATURE DE CONTRAT");
