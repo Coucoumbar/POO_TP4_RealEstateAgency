@@ -20,7 +20,7 @@ protected:
 	string address;
 	double surface;
 	string type;
-	string status;
+	string status; // "Non-vendu", "Vendu", "En location"
 	Owner* owner;
 
 
