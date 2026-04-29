@@ -11,6 +11,8 @@ using namespace std;
 static class Interface
 {
 public:
+	//[INPUT]
+
 	//Loops until the user enters a valid numeric value.
 	template <typename T>
 	static T num_input(T min, T max) {
@@ -48,26 +50,36 @@ public:
 		return value;
 	}
 
-	//Display a section title.
+
+
+	//[DISPLAY]
+
+	//Displays a section title.
 	static void title(const string& text) {
 		cout << "\033[96m" << " ===== " << text << " =====" << "\033[0m";
 		space();
 	}
 
+	//Displays a subtitle
 	static void subtitle(const string& text) {
 		cout << "\033[94m" << " --- " << text << " ---" << "\033[0m" << endl;
 	}
 
+	//Displays a values
 	static void display_value(const string& name, const string& value) {
 		cout << " - " << name << " : " << value << endl;
 	}
 
 
 
+	//[FIELD]
+
+	//Displays a field for a value input
 	static void text_field(const string& message) {
 		cout << " > " << message << " : ";
 	}
 
+	//Displays a field with a name for different choices
 	static void choice_field(const string& message, const vector<string>& choices) {
 		if (!message.empty()) cout << " - " << message << " : " << endl;
 
@@ -81,6 +93,7 @@ public:
 		text_field("Choix");
 	}
 
+	//Displays a field for different choices
 	static void choice_field(const vector<string>& choices) {
 		for (size_t i = 1; i <= choices.size(); i++)
 		{
@@ -92,6 +105,7 @@ public:
 		text_field("Choix");
 	}
 
+	//Displays a detailed list of different type of objects
 	template <typename T>
 	static void detailed_list(const vector<T*>& objects) {
 		if (objects.empty()) 
@@ -109,6 +123,7 @@ public:
 		cout << endl;
 	}
 
+	//Displays a simple list of different type of objects
 	template <typename T>
 	static void simple_list(const vector<T*>& objects) {
 		if (objects.empty())
@@ -124,19 +139,27 @@ public:
 	}
 
 
+
+	//[FEEDBACK]
+
+	//Displays an error mesage in red
 	static void error(const string& message) {
 		cout << "\033[91m" << " * " << message << "\033[0m";
 	}
 
+	//Displays a confirmation message in green
 	static void confirm(const string& message) {
 		cout << endl << "\033[92m" << " > " << message << "\033[0m" << endl;
 	}
 
+	//Displays a return message in yellow
 	static void back() {
 		cout << endl << "\033[93m" << " < " << "Retour" << "\033[0m" << endl;
 	}
 
 
+
+	//[UTIL]
 
 	//Goes down two lines.
 	static void space() {
