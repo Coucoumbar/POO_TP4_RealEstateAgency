@@ -551,7 +551,8 @@ Contract* contract_sign() {
 
 	Itf::display_value("Propriétaire du contrat", owner);
 	Itf::text_field("Réécrire le nom pour confirmer");
-	if (Itf::text_input(1, -1) != owner)
+	string name = Itf::text_input(1, -1);
+	if (name != owner)
 	{
 		Itf::error("Nom incorrect. Operation annulée.");
 		Itf::back();
