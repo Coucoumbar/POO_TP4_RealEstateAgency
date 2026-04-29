@@ -3,9 +3,9 @@
 #include <string>
 
 #include "Contract.h";
-#include "Agency.h";
 
 class Contract;
+class Agency;
 
 using namespace std;
 

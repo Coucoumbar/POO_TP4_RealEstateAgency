@@ -1,4 +1,5 @@
 ﻿#include "Contract.h"
+#include "RealEstate.h"
 #include <iostream>
 #include <stdexcept>
 

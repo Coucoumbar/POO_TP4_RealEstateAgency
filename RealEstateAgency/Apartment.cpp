@@ -14,3 +14,7 @@ Apartment::Apartment(
 void Apartment::change_tenant(Tenant* tenant) {
 	this->tenant = tenant;
 }
+
+void Apartment::display() const {
+
+}

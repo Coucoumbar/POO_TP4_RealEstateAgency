@@ -4,6 +4,7 @@
 
 #include "Contract.h"
 #include "Apartment.h";
+#include "Agency.h"
 
 int Transaction::current_id = 0;
 

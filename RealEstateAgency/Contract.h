@@ -3,13 +3,12 @@
 #include <string>
 #include <vector>
 
-#include "RealEstate.h"
-#include "Transaction.h"
-#include "Person.h"
-
 // forward declaration tu avoid circular dependencies
+class RealEstate;
+class Person;
 class Client;
 class Owner;
+class Transaction;
 
 using namespace std;
 

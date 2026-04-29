@@ -10,3 +10,7 @@ Land::Land(
 {
 	
 }
+
+void Land::display() const {
+
+}

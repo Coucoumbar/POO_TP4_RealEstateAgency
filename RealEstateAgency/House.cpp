@@ -10,3 +10,7 @@ House::House(
 {
 	
 }
+
+void House::display() const {
+
+}
